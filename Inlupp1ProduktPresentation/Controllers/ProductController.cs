@@ -17,10 +17,25 @@ namespace Inlupp1ProduktPresentation.Controllers
             _dbContext = dbContext;
         }
 
-        public IActionResult Index(int id)
+        public IActionResult Index()
+        {
+            var viewModel = new ProductIndexViewModel
+            {
+                Title = "Alla Produkter",
+                Products = _dbContext.Products.Select(dbProd => new ProductViewModel
+                {
+                    Id = dbProd.Id,
+                    Description = dbProd.Description,
+                    Name = dbProd.Name,
+                    Price = dbProd.Price
+                }).ToList()
+            };
+            return View(viewModel);
+        }
+        public IActionResult Details(int id)
         {
             var product = _dbContext.Products.First(prod => prod.Id == id);
-            var viewModel = new ProductIndexViewModel
+            var viewModel = new ProductDetailsViewModel()
             {
                 Name = product.Name,
                 Description = product.Description,

@@ -7,6 +7,6 @@ namespace Inlupp1ProduktPresentation.Models.ViewModels
 {
     public class HomeIndexViewModel
     {
-        public List<CategoryViewModel> Categories { get; set; } = new List<CategoryViewModel>();
+        public List<CategoryViewModel> Categories { get; set; }
     }
 }

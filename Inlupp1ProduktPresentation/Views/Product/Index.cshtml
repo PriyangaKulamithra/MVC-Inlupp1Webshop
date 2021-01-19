@@ -1,14 +1,28 @@
 ﻿@model Inlupp1ProduktPresentation.Models.ViewModels.ProductIndexViewModel
 @{
-    ViewData["Title"] = @Model.Name;
+    ViewData["Title"] = @Model.Title;
 }
 
 <div class="text-center">
-    <h1 class="display-4">@Model.Name</h1>
+    <h1 class="display-4">@Model.Title</h1>
+    <p>Klicka på produkt nedan.</p>
 </div>
-
-<div class="text-center">
-    @Model.Name <br/>
-    @Model.Description <br/>
-    @Model.Price kronor
-</div>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">Produktnamn</th>
+            <th scope="col">Beskrivning</th>
+            <th scope="col">Pris</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var product in Model.Products)
+    {
+        <tr>
+            <td><a asp-controller="Product" asp-action="Details" asp-route-Id="@product.Id">@product.Name</a></td>
+            <td>@product.Description</td>
+            <td>@product.Price kronor</td>
+        </tr>
+    }
+    </tbody>
+</table>
