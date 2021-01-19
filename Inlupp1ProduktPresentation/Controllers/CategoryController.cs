@@ -16,9 +16,20 @@ namespace Inlupp1ProduktPresentation.Controllers
         {
             _dbContext = dbContext;
         }
-        public IActionResult Index(int id)
+
+        public IActionResult Index()
         {
             var viewModel = new CategoryIndexViewModel();
+            viewModel.Categories = _dbContext.Categories.Select(dbCat => new CategoryViewModel
+            {
+                Id = dbCat.Id,
+                Name = dbCat.Name
+            }).ToList();
+            return View(viewModel);
+        }
+        public IActionResult GetProducts(int id)
+        {
+            var viewModel = new CategoryGetProductsViewModel();
             viewModel.CategoryName = _dbContext.Categories.First(cat => cat.Id == id).Name;
             var products = _dbContext.Products.Where(prod => prod.Category.Id == id).ToList();
             viewModel.Products = products.Select(prod => new ProductViewModel()

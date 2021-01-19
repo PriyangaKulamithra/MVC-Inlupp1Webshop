@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Inlupp1ProduktPresentation.Models.ViewModels
 {
     public class CategoryIndexViewModel
     {
-        public string CategoryName { get; set; }
-        public List<ProductViewModel> Products { get; set; } = new List<ProductViewModel>();
+        public List<CategoryViewModel> Categories { get; set; }
     }
 }
