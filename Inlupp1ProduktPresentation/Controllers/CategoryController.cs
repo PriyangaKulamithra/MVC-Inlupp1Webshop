@@ -29,8 +29,9 @@ namespace Inlupp1ProduktPresentation.Controllers
         }
         public IActionResult GetProducts(int id)
         {
-            var viewModel = new CategoryGetProductsViewModel();
-            viewModel.CategoryName = _dbContext.Categories.First(cat => cat.Id == id).Name;
+            var model = _dbContext.Categories.First(cat => cat.Id == id);
+            var viewModel = new CategoryGetProductsViewModel{ CategoryName = model.Name, CategoryDescription = model.CategoryDescription};
+            
             var products = _dbContext.Products.Where(prod => prod.Category.Id == id).ToList();
             viewModel.Products = products.Select(prod => new ProductViewModel()
             {
@@ -40,7 +41,6 @@ namespace Inlupp1ProduktPresentation.Controllers
                 Price = prod.Price
             }).ToList();
 
-            //Skapa produktlista till vm baserat på category
             return View(viewModel);
         }
     }

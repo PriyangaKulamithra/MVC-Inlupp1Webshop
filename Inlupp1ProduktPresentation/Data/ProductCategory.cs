@@ -11,5 +11,7 @@ namespace Inlupp1ProduktPresentation.Data
         public int Id { get; set; }
         [MaxLength(50)]
         public string Name { get; set; }
+        [MaxLength(500)]
+        public string CategoryDescription { get; set; }
     }
 }
