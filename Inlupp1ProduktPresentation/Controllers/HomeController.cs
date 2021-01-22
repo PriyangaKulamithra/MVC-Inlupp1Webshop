@@ -28,7 +28,8 @@ namespace Inlupp1ProduktPresentation.Controllers
             viewModel.Categories = _dbContext.Categories.Select(dbCategory => new CategoryViewModel()
             {
                 Name = dbCategory.Name,
-                Id = dbCategory.Id
+                Id = dbCategory.Id,
+                Description = dbCategory.CategoryDescription
             }).ToList();
             return View(viewModel);
         }
