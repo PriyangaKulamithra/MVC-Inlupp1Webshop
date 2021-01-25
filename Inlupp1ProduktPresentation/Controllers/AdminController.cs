@@ -73,6 +73,14 @@ namespace Inlupp1ProduktPresentation.Controllers
             viewModel.Categories = GetAllCategories();
             return View(viewModel);
         }
+
+        public IActionResult DeleteProduct(int id)
+        {
+            var dbProd = _dbContext.Products.First(p => p.Id == id);
+            _dbContext.Products.Remove(dbProd);
+            _dbContext.SaveChanges();
+            return RedirectToAction("AllProducts");
+        }
         public IActionResult EditCategories()
         {
             var viewModel = new AdminAllCategoriesViewModel();
