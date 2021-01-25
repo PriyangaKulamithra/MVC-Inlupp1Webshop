@@ -26,12 +26,9 @@ namespace Inlupp1ProduktPresentation.Data
                     Name = "Elefantöra liten",
                     Description = "Höjd 8cm",
                     Price = 29.9f,
-                    Category = dbContext.Categories.First(cat=>cat.Name == "Gröna växter")
+                    Category = dbContext.Categories.First(cat => cat.Name == "Gröna växter"),
+                    PublishedOnWebsite = true
                 });
-            else
-            {
-                product.Category = dbContext.Categories.First(cat => cat.Name == "Gröna växter");
-            }
 
             product = dbContext.Products.FirstOrDefault(prod => prod.Name == "Elefantöra stor");
             if (product == null)
@@ -40,12 +37,9 @@ namespace Inlupp1ProduktPresentation.Data
                     Name = "Elefantöra stor",
                     Description = "Höjd 25cm",
                     Price = 79.9f,
-                    Category = dbContext.Categories.First(cat => cat.Name == "Gröna växter")
+                    Category = dbContext.Categories.First(cat => cat.Name == "Gröna växter"),
+                    PublishedOnWebsite = true
                 });
-            else
-            {
-                product.Category = dbContext.Categories.First(cat => cat.Name == "Gröna växter");
-            }
 
             product = dbContext.Products.FirstOrDefault(prod => prod.Name == "Monstera");
             if (product == null)
@@ -54,12 +48,9 @@ namespace Inlupp1ProduktPresentation.Data
                     Name = "Monstera",
                     Description = "Höjd 55cm",
                     Price = 159f,
-                    Category = dbContext.Categories.First(cat => cat.Name == "Gröna växter")
+                    Category = dbContext.Categories.First(cat => cat.Name == "Gröna växter"),
+                    PublishedOnWebsite = true
                 });
-            else
-            {
-                product.Category = dbContext.Categories.First(cat => cat.Name == "Gröna växter");
-            }
 
             product = dbContext.Products.FirstOrDefault(prod => prod.Name == "Moses Stentavla");
             if (product == null)
@@ -68,12 +59,9 @@ namespace Inlupp1ProduktPresentation.Data
                     Name = "Moses Stentavla",
                     Description = "Höjd 30cm",
                     Price = 149f,
-                    Category = dbContext.Categories.First(cat => cat.Name == "Gröna växter")
+                    Category = dbContext.Categories.First(cat => cat.Name == "Gröna växter"),
+                    PublishedOnWebsite = true
                 });
-            else
-            {
-                product.Category = dbContext.Categories.First(cat => cat.Name == "Gröna växter");
-            }
 
             product = dbContext.Products.FirstOrDefault(prod => prod.Name == "Kruka - STOR");
             if (product == null)
@@ -82,12 +70,9 @@ namespace Inlupp1ProduktPresentation.Data
                     Name = "Kruka - STOR",
                     Description = "Kruka med dräneringshål i botten. 17cm i diameter.",
                     Price = 119f,
-                    Category = dbContext.Categories.First(cat => cat.Name == "Krukor och tillbehör")
+                    Category = dbContext.Categories.First(cat => cat.Name == "Krukor och tillbehör"),
+                    PublishedOnWebsite = true
                 });
-            else
-            {
-                product.Category = dbContext.Categories.First(cat => cat.Name == "Krukor och tillbehör");
-            }
 
             product = dbContext.Products.FirstOrDefault(prod => prod.Name == "Kruka - MELLAN");
             if (product == null)
@@ -96,12 +81,9 @@ namespace Inlupp1ProduktPresentation.Data
                     Name = "Kruka - MELLAN",
                     Description = "Kruka med dräneringshål i botten. 13cm i diameter.",
                     Price = 79f,
-                    Category = dbContext.Categories.First(cat => cat.Name == "Krukor och tillbehör")
+                    Category = dbContext.Categories.First(cat => cat.Name == "Krukor och tillbehör"),
+                    PublishedOnWebsite = true
                 });
-            else
-            {
-                product.Category = dbContext.Categories.First(cat => cat.Name == "Krukor och tillbehör");
-            }
 
             product = dbContext.Products.FirstOrDefault(prod => prod.Name == "Kruka - LITEN");
             if (product == null)
@@ -110,12 +92,9 @@ namespace Inlupp1ProduktPresentation.Data
                     Name = "Kruka - LITEN",
                     Description = "Terrakottakruka med patina. 7cm i diameter.",
                     Price = 29f,
-                    Category = dbContext.Categories.First(cat => cat.Name == "Krukor och tillbehör")
+                    Category = dbContext.Categories.First(cat => cat.Name == "Krukor och tillbehör"),
+                    PublishedOnWebsite = true
                 });
-            else
-            {
-                product.Category = dbContext.Categories.First(cat => cat.Name == "Krukor och tillbehör");
-            }
 
             product = dbContext.Products.FirstOrDefault(prod => prod.Name == "Tulpaner 10-pack");
             if (product == null)
@@ -124,12 +103,9 @@ namespace Inlupp1ProduktPresentation.Data
                     Name = "Tulpaner 10-pack",
                     Description = "Liten tulpanbukett i flera färger.",
                     Price = 59.9f,
-                    Category = dbContext.Categories.First(cat => cat.Name == "Snittblommor")
+                    Category = dbContext.Categories.First(cat => cat.Name == "Snittblommor"),
+                    PublishedOnWebsite = true
                 });
-            else
-            {
-                product.Category = dbContext.Categories.First(cat => cat.Name == "Snittblommor");
-            }
 
             product = dbContext.Products.FirstOrDefault(prod => prod.Name == "Tulpaner 30-pack");
             if (product == null)
@@ -138,12 +114,9 @@ namespace Inlupp1ProduktPresentation.Data
                     Name = "Tulpaner 30-pack",
                     Description = "Stor tulpanbukett i flera färger.",
                     Price = 199.9f,
-                    Category = dbContext.Categories.First(cat => cat.Name == "Snittblommor")
+                    Category = dbContext.Categories.First(cat => cat.Name == "Snittblommor"),
+                    PublishedOnWebsite = true
                 });
-            else
-            {
-                product.Category = dbContext.Categories.First(cat => cat.Name == "Snittblommor");
-            }
 
             dbContext.SaveChanges();
         }
@@ -196,8 +169,8 @@ namespace Inlupp1ProduktPresentation.Data
 
         //private static void SeedUsers(ApplicationDbContext dbContext)
         //{
-            
+
         //}
-        
+
     }
 }

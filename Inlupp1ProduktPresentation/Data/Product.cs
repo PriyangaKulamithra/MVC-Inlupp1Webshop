@@ -15,5 +15,6 @@ namespace Inlupp1ProduktPresentation.Data
         public string Description { get; set; }
         public float Price { get; set; }
         public ProductCategory Category { get; set; }
+        public bool PublishedOnWebsite { get; set; }
     }
 }

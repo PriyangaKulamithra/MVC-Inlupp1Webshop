@@ -1,0 +1,43 @@
+﻿@using System.Diagnostics.Eventing.Reader
+@model Inlupp1ProduktPresentation.Models.ViewModels.AdminAllProductsViewModel
+@*@model Microsoft.AspNetCore.Identity.UserLoginInfo*@
+@{
+    ViewData["Title"] = "Alla Produkter";
+}
+
+
+<div class="text-center">
+    <h1 class="display-4">Redigera produkter</h1>
+</div>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">Produktnamn</th>
+            <th scope="col">Beskrivning</th>
+            <th scope="col">Kategori</th>
+            <th scope="col">Pris</th>
+            <th scope="col text-center">Publicerad</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var product in Model.Products)
+    {
+        <tr>
+            <td>@product.Name</td>
+            <td>@product.Description</td>
+            <td>@product.Category</td>
+            <td>@product.Price</td>
+            @if (product.IsPublished)
+            {
+                <td class="text-center">&#x2714;</td>
+            }
+            else
+            {
+                <td class="text-center">&#x2718;</td>
+            }
+            <td><a asp-controller="Admin" asp-action="EditProduct" asp-route-Id="@product.Id" class="btn btn-primary btn-sm active"  style="background-color: rgb(64, 145, 108)" role="button" aria-pressed="true">Edit</a></td>
+            <td><a asp-controller="Admin" asp-action="DeleteProduct" asp-route-Id="@product.Id" class="btn btn-primary btn-sm active"  style="background-color: rgb(64, 145, 108)"  role="button" aria-pressed="true">Delete</a></td>
+        </tr>
+    }
+    </tbody>
+</table>

@@ -32,7 +32,7 @@ namespace Inlupp1ProduktPresentation.Controllers
             var model = _dbContext.Categories.First(cat => cat.Id == id);
             var viewModel = new CategoryGetProductsViewModel{ CategoryName = model.Name, CategoryDescription = model.CategoryDescription};
             
-            var products = _dbContext.Products.Where(prod => prod.Category.Id == id).ToList();
+            var products = _dbContext.Products.Where(prod => prod.Category.Id == id && prod.PublishedOnWebsite).ToList();
             viewModel.Products = products.Select(prod => new ProductViewModel()
             {
                 Id = prod.Id,

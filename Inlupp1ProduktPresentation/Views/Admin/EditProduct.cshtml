@@ -1,0 +1,32 @@
+﻿@model Inlupp1ProduktPresentation.Models.ViewModels.AdminEditProductViewModel
+@*@model Microsoft.AspNetCore.Identity.UserLoginInfo*@
+@{
+    ViewData["Title"] = "Redigera Produkt";
+}
+
+<form method="post" asp-controller="Admin" asp-action="EditProduct">
+    <div class="form-group">
+        <label asp-for="Name" class="text-uppercase">Namn</label>
+        <input asp-for="Name" class="form-control">
+    </div>
+    <div class="form-group">
+        <label asp-for="Description" class="text-uppercase">Beskrivning</label>
+        <input asp-for="Description" class="form-control">
+    </div>
+    <div class="form-group">
+        <label asp-for="Price" class="text-uppercase">Pris</label>
+        <input asp-for="Price" class="form-control">
+    </div>
+    <div class="form-group">
+        <label asp-for="Price" class="text-uppercase">Produktkategori</label>
+        <select asp-for="SelectedCategoryId" asp-items="Model.Categories"></select>
+    </div>
+    <div class="form-check">
+        <input asp-for="PublishOnWebsite" class="form-check-input">
+        <label asp-for="PublishOnWebsite" class="form-check-label text-uppercase">Publicera på webshopen</label>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary" style="background-color: rgb(64, 145, 108)">Spara ändringar</button>
+        <button asp-controller="" asp-action="" asp-route-id="" class="btn btn-primary" style="background-color: red;">Ta bort</button>
+    </div>
+</form>

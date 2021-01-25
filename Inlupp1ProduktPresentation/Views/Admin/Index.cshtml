@@ -1,0 +1,22 @@
+﻿@model Inlupp1ProduktPresentation.Models.ViewModels.AdminIndexViewModel
+@*@model Microsoft.AspNetCore.Identity.UserLoginInfo*@
+@{
+    ViewData["Title"] = "Startsida";
+}
+
+
+<div class="text-center">
+    <h3>Välkommen INLOGGSNAMN</h3>
+</div>
+<div>
+    <div class="row text-center">
+        <div class="col card p-3 m-5">
+            Registrerade produkter: @Model.NumberOfProducts st<br />
+            <a asp-controller="Admin" asp-action="EditProducts">Redigera produkter</a>
+        </div>
+        <div class="col card p-3 m-5">
+            Kategorier: @Model.NumberOfCategories st<br/>
+            <a asp-controller="Admin" asp-action="EditCategories">Redigera kategorier</a>
+        </div>
+    </div>
+</div>

@@ -22,7 +22,7 @@ namespace Inlupp1ProduktPresentation.Controllers
             var viewModel = new ProductIndexViewModel
             {
                 Title = "Alla Produkter",
-                Products = _dbContext.Products.Select(dbProd => new ProductViewModel
+                Products = _dbContext.Products.Where(dbP=>dbP.PublishedOnWebsite).Select(dbProd => new ProductViewModel
                 {
                     Id = dbProd.Id,
                     Description = dbProd.Description,
