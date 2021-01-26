@@ -60,8 +60,6 @@ namespace Inlupp1ProduktPresentation.Controllers
         [HttpPost]
         public IActionResult EditProduct(int id, AdminEditProductViewModel viewModel)
         {
-            if (viewModel.SelectedCategoryId == 0) { ModelState.AddModelError("SelectedCategoryId", "Du måste välja en kategori."); }
-
             if (ModelState.IsValid)
             {
                 var dbProd = _dbContext.Products.Include(p => p.Category).First(pr => pr.Id == id);
@@ -140,10 +138,8 @@ namespace Inlupp1ProduktPresentation.Controllers
         [HttpPost]
         public IActionResult EditCategory(int id, AdminEditCategoryViewModel viewModel)
         {
-            foreach (var name in RegisteredCategoryNames())
-            {
-                if (name.ToLower() == viewModel.Name.ToLower()) ModelState.AddModelError("Name", "Namnet är upptaget.");
-            }
+            var isAlreadyRegisteredName = RegisteredCategoryNames().FirstOrDefault(n => n.ToLower() == viewModel.Name.ToLower());
+            if (isAlreadyRegisteredName != null) ModelState.AddModelError("Name", "Detta kategorinamn är redan registrerat.");
             if (ModelState.IsValid)
             {
                 var dbCategory = _dbContext.Categories.First(c => c.Id == id);
@@ -162,10 +158,27 @@ namespace Inlupp1ProduktPresentation.Controllers
             return RedirectToAction("AllCategories");
         }
 
-        //public IActionResult NewCategory()
-        //{
-
-        //}
+        public IActionResult NewCategory()
+        {
+            var viewModel = new AdminNewCategoryViewModel();
+            return View(viewModel);
+        }
+        [HttpPost]
+        public IActionResult NewCategory(AdminNewCategoryViewModel viewModel)
+        {
+            var isAlreadyRegisteredName = RegisteredCategoryNames().FirstOrDefault(n => n.ToLower() == viewModel.Name.ToLower());
+            if (isAlreadyRegisteredName != null) ModelState.AddModelError("Name", "Detta kategorinamn är redan registrerat.");
+            if (ModelState.IsValid)
+            {
+                var dbCategory = new ProductCategory();
+                dbCategory.Name = viewModel.Name;
+                dbCategory.CategoryDescription = viewModel.Description;
+                _dbContext.Categories.Add(dbCategory);
+                _dbContext.SaveChanges();
+                return RedirectToAction("AllCategories");
+            }
+            return View(viewModel);
+        }
         private List<string> RegisteredCategoryNames()
         {
             return _dbContext.Categories.Select(c => c.Name).ToList();

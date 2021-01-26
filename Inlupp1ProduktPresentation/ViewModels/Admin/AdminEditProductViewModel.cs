@@ -8,12 +8,12 @@ namespace Inlupp1ProduktPresentation.Models.ViewModels
     {
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Produkten måste ha ett namn.")]
         [MaxLength(100)]
         [MinLength(2, ErrorMessage = "Namnet är för kort.")]
         public string Name { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Produkten måste ha en beskrivning.")]
         [MaxLength(300)]
         [MinLength(5, ErrorMessage = "Beskrivningen är för kort.")]
         public string Description { get; set; }
