@@ -7,13 +7,13 @@
 <form method="post" asp-controller="Admin" asp-action="EditCategory">
     <div class="form-group">
         <label asp-for="Name" class="text-uppercase">Namn</label>
-        <input asp-for="Name" class="form-control"></input>
-        <span asp-validation-for="Name" class="input-validation-error"></span>
+        <input asp-for="Name" class="form-control">
+        <span asp-validation-for="Name" class="field-validation-error"></span>
     </div>
     <div class="form-group">
         <label asp-for="Description" class="text-uppercase">Beskrivning</label>
         <textarea asp-for="Description" class="form-control"></textarea>
-        <span asp-validation-for="Description" class="input-validation-error"></span>
+        <span asp-validation-for="Description" class="field-validation-error"></span>
     </div>
     <div class="form-group">
         <button type="submit" class="btn btn-primary" style="background-color: rgb(64, 145, 108)">Spara ändringar</button>

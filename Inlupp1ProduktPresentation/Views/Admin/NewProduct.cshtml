@@ -7,22 +7,22 @@
     <div class="form-group">
         <label asp-for="Name" class="text-uppercase">Namn</label>
         <input asp-for="Name" class="form-control">
-        <span asp-validation-for="Name" class="input-validation-error"></span>
+        <span asp-validation-for="Name" class="field-validation-error"></span>
     </div>
     <div class="form-group">
         <label asp-for="Description" class="text-uppercase">Beskrivning</label>
         <textarea asp-for="Description" class="form-control"></textarea>
-        <span asp-validation-for="Description" class="input-validation-error"></span>
+        <span asp-validation-for="Description" class="field-validation-error"></span>
     </div>
     <div class="form-group">
         <label asp-for="Price" class="text-uppercase">Pris</label>
         <input asp-for="Price" class="form-control">
-        <span asp-validation-for="Price" class="input-validation-error"></span>
+        <span asp-validation-for="Price" class="field-validation-error"></span>
     </div>
     <div class="form-group">
         <label asp-for="SelectedCategoryId" class="text-uppercase">Produktkategori</label>
         <select asp-for="SelectedCategoryId" asp-items="Model.Categories"></select>
-        <span asp-validation-for="SelectedCategoryId" class="input-validation-error"></span>
+        <span asp-validation-for="SelectedCategoryId" class="field-validation-error"></span>
     </div>
     <div class="form-check">
         <input asp-for="PublishOnWebsite" class="form-check-input">

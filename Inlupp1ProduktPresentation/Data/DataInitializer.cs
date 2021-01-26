@@ -12,8 +12,8 @@ namespace Inlupp1ProduktPresentation.Data
         public static void SeedData(ApplicationDbContext dbContext, UserManager<IdentityUser> userManager)
         {
             dbContext.Database.Migrate();
-            SeedProducts(dbContext);
             SeedCategories(dbContext);
+            SeedProducts(dbContext);
             //SeedUsers(dbContext); //BEHÖVS DENNA? 
         }
 
@@ -28,6 +28,17 @@ namespace Inlupp1ProduktPresentation.Data
                     Price = 29.9f,
                     Category = dbContext.Categories.First(cat => cat.Name == "Gröna växter"),
                     PublishedOnWebsite = true
+                });
+
+            product = dbContext.Products.FirstOrDefault(prod => prod.Name == "Elefantöra");
+            if (product == null)
+                dbContext.Products.Add(new Product()
+                {
+                    Name = "Elefantöra",
+                    Description = "Höjd 8cm",
+                    Price = 29.9f,
+                    Category = dbContext.Categories.First(cat => cat.Name == "Gröna växter"),
+                    PublishedOnWebsite = false
                 });
 
             product = dbContext.Products.FirstOrDefault(prod => prod.Name == "Elefantöra stor");
