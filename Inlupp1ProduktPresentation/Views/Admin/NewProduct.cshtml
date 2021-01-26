@@ -1,10 +1,9 @@
-﻿@model Inlupp1ProduktPresentation.Models.ViewModels.AdminEditProductViewModel
-@*@model Microsoft.AspNetCore.Identity.UserLoginInfo*@
+﻿@model Inlupp1ProduktPresentation.Models.ViewModels.AdminNewProductViewModel
 @{
-    ViewData["Title"] = "Redigera Produkt";
+    ViewData["Title"] = "Ny Produkt";
 }
 
-<form method="post" asp-controller="Admin" asp-action="EditProduct">
+<form method="post" asp-controller="Admin" asp-action="NewProduct">
     <div class="form-group">
         <label asp-for="Name" class="text-uppercase">Namn</label>
         <input asp-for="Name" class="form-control">
@@ -31,6 +30,5 @@
     </div>
     <div class="form-group">
         <button type="submit" class="btn btn-primary" style="background-color: rgb(64, 145, 108)">Spara ändringar</button>
-        <button asp-controller="" asp-action="" asp-route-id="" class="btn btn-primary" style="background-color: red;">Ta bort</button>
     </div>
 </form>

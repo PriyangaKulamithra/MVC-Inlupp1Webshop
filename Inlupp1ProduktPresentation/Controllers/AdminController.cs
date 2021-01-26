@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Inlupp1ProduktPresentation.Data;
 using Inlupp1ProduktPresentation.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 
 namespace Inlupp1ProduktPresentation.Controllers
 {
@@ -52,12 +54,14 @@ namespace Inlupp1ProduktPresentation.Controllers
                 SelectedCategoryId = dbProd.Category.Id,
                 PublishOnWebsite = dbProd.PublishedOnWebsite
             };
-            viewModel.Categories = GetAllCategories();
+            viewModel.Categories = GetCategoryListItems();
             return View(viewModel);
         }
         [HttpPost]
         public IActionResult EditProduct(int id, AdminEditProductViewModel viewModel)
         {
+            if (viewModel.SelectedCategoryId == 0) { ModelState.AddModelError("SelectedCategoryId", "Du måste välja en kategori."); }
+
             if (ModelState.IsValid)
             {
                 var dbProd = _dbContext.Products.Include(p => p.Category).First(pr => pr.Id == id);
@@ -70,7 +74,7 @@ namespace Inlupp1ProduktPresentation.Controllers
                 return RedirectToAction("AllProducts");
             }
 
-            viewModel.Categories = GetAllCategories();
+            viewModel.Categories = GetCategoryListItems();
             return View(viewModel);
         }
 
@@ -81,17 +85,97 @@ namespace Inlupp1ProduktPresentation.Controllers
             _dbContext.SaveChanges();
             return RedirectToAction("AllProducts");
         }
-        public IActionResult EditCategories()
+
+        public IActionResult NewProduct()
         {
-            var viewModel = new AdminAllCategoriesViewModel();
+            var viewModel = new AdminNewProductViewModel();
+            viewModel.Categories = GetCategoryListItems();
             return View(viewModel);
         }
+        [HttpPost]
+        public IActionResult NewProduct(AdminNewProductViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var dbProd = new Product();
+                dbProd.Name = model.Name;
+                dbProd.Description = model.Description;
+                dbProd.Price = model.Price;
+                dbProd.PublishedOnWebsite = model.PublishOnWebsite;
+                dbProd.Category = _dbContext.Categories.First(c => c.Id == model.SelectedCategoryId);
+                _dbContext.Products.Add(dbProd);
+                _dbContext.SaveChanges();
+                return RedirectToAction("AllProducts");
+            }
 
-        private List<SelectListItem> GetAllCategories()
+            model.Categories = GetCategoryListItems();
+            return View(model);
+        }
+
+        public IActionResult AllCategories()
+        {
+            var viewModel = new AdminAllCategoriesViewModel();
+            viewModel.NumberOfCategories = _dbContext.Categories.Count();
+            viewModel.Categories = _dbContext.Categories.Select(c =>
+                new AdminAllCategoriesViewModel.AdminCategoryViewModel
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                    Description = c.CategoryDescription,
+                    NumberOfProducts = _dbContext.Products.Count(p => p.Category.Id == c.Id)
+                }).ToList();
+            return View(viewModel);
+        }
+        public IActionResult EditCategory(int id)
+        {
+            var dbCategory = _dbContext.Categories.First(c => c.Id == id);
+            var viewModel = new AdminEditCategoryViewModel
+            {
+                Id = dbCategory.Id,
+                Name = dbCategory.Name,
+                Description = dbCategory.CategoryDescription,
+            };
+            return View(viewModel);
+        }
+        [HttpPost]
+        public IActionResult EditCategory(int id, AdminEditCategoryViewModel viewModel)
+        {
+            foreach (var name in RegisteredCategoryNames())
+            {
+                if (name.ToLower() == viewModel.Name.ToLower()) ModelState.AddModelError("Name", "Namnet är upptaget.");
+            }
+            if (ModelState.IsValid)
+            {
+                var dbCategory = _dbContext.Categories.First(c => c.Id == id);
+                dbCategory.Name = viewModel.Name;
+                dbCategory.CategoryDescription = viewModel.Description;
+                _dbContext.SaveChanges();
+                return RedirectToAction("AllCategories");
+            }
+            return View(viewModel);
+        }
+        public IActionResult DeleteCategory(int id)
+        {
+            var dbCategory = _dbContext.Categories.First(c => c.Id == id);
+            _dbContext.Categories.Remove(dbCategory);
+            _dbContext.SaveChanges();
+            return RedirectToAction("AllCategories");
+        }
+
+        //public IActionResult NewCategory()
+        //{
+
+        //}
+        private List<string> RegisteredCategoryNames()
+        {
+            return _dbContext.Categories.Select(c => c.Name).ToList();
+        }
+
+        private List<SelectListItem> GetCategoryListItems()
         {
             var list = new List<SelectListItem>();
             list.Add(new SelectListItem("Välj kategori", "0"));
-            list.AddRange(_dbContext.Categories.Select(c=>new SelectListItem{Text = c.Name, Value = c.Id.ToString()}));
+            list.AddRange(_dbContext.Categories.Select(c => new SelectListItem { Text = c.Name, Value = c.Id.ToString() }));
             return list;
         }
     }

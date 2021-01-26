@@ -7,17 +7,21 @@
 
 
 <div class="text-center">
-    <h1 class="display-4">Redigera produkter</h1>
+    <h1 class="display-4">Alla produkter</h1>
+</div>
+<div class="m-2">
+    Antal produkter: @Model.NumberOfProducts
+    <a asp-controller="Admin" asp-action="NewProduct" style="background-color: rgb(64, 145, 108);" class="btn btn-sm active btn-secondary" role="button" aria-pressed="true">Lägg till produkt</a>
 </div>
 <table class="table table-hover">
     <thead>
-        <tr>
-            <th scope="col">Produktnamn</th>
-            <th scope="col">Beskrivning</th>
-            <th scope="col">Kategori</th>
-            <th scope="col">Pris</th>
-            <th scope="col text-center">Publicerad</th>
-        </tr>
+    <tr>
+        <th scope="col">Produktnamn</th>
+        <th scope="col">Beskrivning</th>
+        <th scope="col">Kategori</th>
+        <th scope="col">Pris</th>
+        <th scope="col text-center">Publicerad</th>
+    </tr>
     </thead>
     <tbody>
     @foreach (var product in Model.Products)
@@ -35,8 +39,8 @@
             {
                 <td class="text-center">&#x2718;</td>
             }
-            <td><a asp-controller="Admin" asp-action="EditProduct" asp-route-Id="@product.Id" class="btn btn-primary btn-sm active"  style="background-color: rgb(64, 145, 108)" role="button" aria-pressed="true">Edit</a></td>
-            <td><a asp-controller="Admin" asp-action="DeleteProduct" asp-route-Id="@product.Id" class="btn btn-primary btn-sm active"  style="background-color: rgb(64, 145, 108)"  role="button" aria-pressed="true">Delete</a></td>
+            <td><a asp-controller="Admin" asp-action="EditProduct" asp-route-Id="@product.Id" class="btn btn-primary btn-sm active" style="background-color: rgb(64, 145, 108)" role="button" aria-pressed="true">Redigera</a></td>
+            <td><a asp-controller="Admin" asp-action="DeleteProduct" asp-route-Id="@product.Id" class="btn btn-primary btn-sm active" style="background-color: rgb(64, 145, 108)" role="button" aria-pressed="true">Ta bort</a></td>
         </tr>
     }
     </tbody>

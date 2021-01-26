@@ -1,0 +1,36 @@
+﻿@model Inlupp1ProduktPresentation.Models.ViewModels.AdminAllCategoriesViewModel
+@*@model Microsoft.AspNetCore.Identity.UserLoginInfo*@
+@{
+    ViewData["Title"] = "Alla kategorier";
+}
+
+
+
+<div class="text-center">
+    <h1 class="display-4">Alla kategorier</h1>
+</div>
+<div class="m-2">
+    Antal kategorier: @Model.NumberOfCategories
+    <a asp-controller="Admin" asp-action="NewCategory" style="background-color: rgb(64, 145, 108);" class="btn btn-sm active btn-secondary" role="button" aria-pressed="true">Lägg till kategori</a>
+</div>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">Kategorinamn</th>
+            <th scope="col">Beskrivning</th>
+            <th scope="col">Antal produkter</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var category in Model.Categories)
+        {
+            <tr>
+                <td>@category.Name</td>
+                <td>@category.Description</td>
+                <td>@category.NumberOfProducts</td>
+                <td><a asp-controller="Admin" asp-action="EditCategory" asp-route-Id="@category.Id" class="btn btn-primary btn-sm active" style="background-color: rgb(64, 145, 108)" role="button" aria-pressed="true">Redigera</a></td>
+                <td><a asp-controller="Admin" asp-action="DeleteCategory" asp-route-Id="@category.Id" class="btn btn-primary btn-sm active" style="background-color: rgb(64, 145, 108)" role="button" aria-pressed="true">Ta bort</a></td>
+            </tr>
+        }
+    </tbody>
+</table>
