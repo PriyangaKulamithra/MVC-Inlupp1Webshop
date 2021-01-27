@@ -27,11 +27,23 @@ namespace Inlupp1ProduktPresentation.Controllers
                     Id = dbProd.Id,
                     Description = dbProd.Description,
                     Name = dbProd.Name,
-                    Price = dbProd.Price
+                    Price = dbProd.Price,
+                    ImageName = ConvertToImageName(dbProd.Name)
                 }).ToList()
             };
             return View(viewModel);
         }
+
+        private static string ConvertToImageName(string name)
+        {
+            var imgName = name.ToLower();
+            imgName = imgName.Replace(' ', '_');
+            imgName = imgName.Replace('å', 'a');
+            imgName = imgName.Replace('ä', 'a');
+            imgName = imgName.Replace('ö', 'o');
+            return imgName;
+        }
+
         public IActionResult Details(int id)
         {
             var product = _dbContext.Products.First(prod => prod.Id == id);
@@ -39,7 +51,8 @@ namespace Inlupp1ProduktPresentation.Controllers
             {
                 Name = product.Name,
                 Description = product.Description,
-                Price = product.Price
+                Price = product.Price,
+                ImageName = ConvertToImageName(product.Name)
             };
             return View(viewModel);
         }

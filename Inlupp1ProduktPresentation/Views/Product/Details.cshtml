@@ -3,12 +3,12 @@
     ViewData["Title"] = @Model.Name;
 }
 
-<div class="text-center">
-    <h1 class="display-4">@Model.Name</h1>
-</div>
+<div class="container justify-content-center">
+    <img class="img-fluid mx-auto d-block" src="~/img/product/@(Model.ImageName).jpeg" style="max-width: 400px; height: auto;" />
+    <div class="text-center">
+        <h1 class="display-4">@Model.Name</h1>
 
-<div class="text-center">
-    @Model.Name <br/>
-    @Model.Description <br/>
-    @Model.Price kronor
+        @Model.Description <br />
+        @Model.Price kronor
+    </div>
 </div>

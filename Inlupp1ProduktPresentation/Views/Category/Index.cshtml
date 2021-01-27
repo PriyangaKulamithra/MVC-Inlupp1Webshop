@@ -5,20 +5,16 @@
 
 <div class="text-center">
     <h1 class="display-4">Alla kategorier</h1>
-    <p>Välj en kategori nedan.</p>
+    <p>Klicka på en kategori för att se dess produkter</p>
 </div>
-<table class="table table-hover">
-    <thead>
-    <tr>
-        <th scope="col">Kategorinamn</th>
-    </tr>
-    </thead>
-    <tbody>
+
+<div class="row">
     @foreach (var category in Model.Categories)
     {
-        <tr>
-            <td><a asp-controller="Category" asp-action="GetProducts" asp-route-Id="@category.Id">@category.Name</a></td>
-        </tr>
+        <div class="col-lg-4 col-md-6 p-5 text-center" style="letter-spacing: .2em; text-transform: uppercase;">
+            <img class="img-fluid" src="~/img/category/@(category.ImageName).jpeg" />
+            <a class="nav-link text-secondary" asp-controller="Category" asp-action="GetProducts" asp-route-Id="@category.Id"><h4>@category.Name</h4></a>
+            <p>@category.Description</p>
+        </div>
     }
-    </tbody>
-</table>
+</div>

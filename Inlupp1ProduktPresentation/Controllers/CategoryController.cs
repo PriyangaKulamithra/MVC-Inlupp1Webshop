@@ -23,7 +23,8 @@ namespace Inlupp1ProduktPresentation.Controllers
             viewModel.Categories = _dbContext.Categories.Select(dbCat => new CategoryViewModel
             {
                 Id = dbCat.Id,
-                Name = dbCat.Name
+                Name = dbCat.Name,
+                ImageName = ConvertToImageName(dbCat.Name)
             }).ToList();
             return View(viewModel);
         }
@@ -38,10 +39,20 @@ namespace Inlupp1ProduktPresentation.Controllers
                 Id = prod.Id,
                 Name = prod.Name,
                 Description = prod.Description,
-                Price = prod.Price
+                Price = prod.Price,
+                ImageName = ConvertToImageName(prod.Name)
             }).ToList();
 
             return View(viewModel);
+        }
+        private static string ConvertToImageName(string name)
+        {
+            var imgName = name.ToLower();
+            imgName = imgName.Replace(' ', '_');
+            imgName = imgName.Replace('å', 'a');
+            imgName = imgName.Replace('ä', 'a');
+            imgName = imgName.Replace('ö', 'o');
+            return imgName;
         }
     }
 }

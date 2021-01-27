@@ -29,9 +29,20 @@ namespace Inlupp1ProduktPresentation.Controllers
             {
                 Name = dbCategory.Name,
                 Id = dbCategory.Id,
-                Description = dbCategory.CategoryDescription
+                Description = dbCategory.CategoryDescription,
+                ImageName = ConvertToImageName(dbCategory.Name)
             }).ToList();
             return View(viewModel);
+        }
+
+        private static string ConvertToImageName(string name)
+        {
+            var imgName = name.ToLower();
+            imgName = imgName.Replace(' ', '_');
+            imgName = imgName.Replace('å', 'a');
+            imgName = imgName.Replace('ä', 'a');
+            imgName = imgName.Replace('ö', 'o');
+            return imgName;
         }
 
         public IActionResult Privacy()
