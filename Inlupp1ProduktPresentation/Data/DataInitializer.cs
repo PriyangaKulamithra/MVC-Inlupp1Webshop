@@ -134,31 +134,13 @@ namespace Inlupp1ProduktPresentation.Data
 
         private static void SeedCategories(ApplicationDbContext dbContext)
         {
-            var category = dbContext.Categories.FirstOrDefault(cat => cat.Name == "Krukor och tillbehör");
-            if (category == null)
-                dbContext.Categories.Add(new ProductCategory()
-                {
-                    Name = "Krukor och tillbehör",
-                    CategoryDescription = "Alla våra växter behöver en vän som håller om dem och som förhöjer deras stil, så här hittar du alla våra tillbehör till våra växter."
-                });
-            else
-            {
-                category.CategoryDescription =
-                    "Alla våra växter behöver en vän som håller om dem och som förhöjer deras stil, så här hittar du alla våra tillbehör till våra växter.";
-            }
-
-            category = dbContext.Categories.FirstOrDefault(cat => cat.Name == "Snittblommor");
+            var category = dbContext.Categories.FirstOrDefault(cat => cat.Name == "Snittblommor");
             if (category == null)
                 dbContext.Categories.Add(new ProductCategory()
                 {
                     Name = "Snittblommor",
-                    CategoryDescription = "Fira in att det är måndag/tisdag/vilkendagsomhelst med en ljuvlig bukett blommor"
+                    CategoryDescription = "Fira in att det är vilkendagsomhelst med en ljuvlig bukett blommor"
                 });
-            else
-            {
-                category.CategoryDescription =
-                    "Fira in att det är måndag/ tisdag / vilkendagsomhelst med en ljuvlig bukett blommor";
-            }
 
             category = dbContext.Categories.FirstOrDefault(cat => cat.Name == "Gröna växter");
             if (category == null)
@@ -168,12 +150,14 @@ namespace Inlupp1ProduktPresentation.Data
                     CategoryDescription = "Vet du inte riktigt vad du letar efter men känner att du har alldeles för lite grönt i ditt liv eller bara känner att en " +
                                           "växt skulle va det bästa som hänt dig? Då har du kommit rätt. "
                 });
-            else
-            {
-                category.CategoryDescription =
-                    "Vet du inte riktigt vad du letar efter men känner att du har alldeles för lite grönt i ditt liv eller bara känner att en " +
-                    "växt skulle va det bästa som hänt dig? Då har du kommit rätt.";
-            }
+
+            category = dbContext.Categories.FirstOrDefault(cat => cat.Name == "Krukor och tillbehör");
+            if (category == null)
+                dbContext.Categories.Add(new ProductCategory()
+                {
+                    Name = "Krukor och tillbehör",
+                    CategoryDescription = "Alla våra växter behöver en vän som håller om dem och som förhöjer deras stil, så här hittar du alla våra tillbehör till våra växter."
+                });
 
             dbContext.SaveChanges();
         }

@@ -1,6 +1,11 @@
 ﻿@model Inlupp1ProduktPresentation.Models.ViewModels.HomeIndexViewModel
 @{
     ViewData["Title"] = "Startsida";
+    var imageName = "";
+    if (imageName != null)
+    {
+        imageName = "";
+    }
 }
 
 <div class="text-center">
@@ -8,11 +13,19 @@
     <p>Välj kategori nedan.</p>
 </div>
 
-
 <div class="row">
     @foreach (var category in Model.Categories)
     {
-        <div class="col-md-4 p-5 text-center" style="letter-spacing: .2em; text-transform: uppercase;">
+        
+       
+        imageName = category.Name.Replace(' ', '_').ToLower();
+        imageName = imageName.Replace('ö', 'o');
+        imageName = imageName.Replace('ä', 'a');
+        imageName = imageName.Replace('å', 'a');
+        
+
+        <div class="col-lg-4 p-5 text-center" style="letter-spacing: .2em; text-transform: uppercase;">
+            <img class="img-fluid" src="~/img/category/@(imageName).jpeg" />
             <a class="nav-link text-secondary" asp-controller="Category" asp-action="GetProducts" asp-route-Id="@category.Id"><h4>@category.Name</h4></a>
             <p>@category.Description</p>
         </div>
