@@ -7,7 +7,6 @@ namespace Inlupp1ProduktPresentation.Models.ViewModels
 {
     public class ProductIndexViewModel
     {
-        public string Title { get; set; }
         public List<ProductViewModel> Products { get; set; }
     }
 }

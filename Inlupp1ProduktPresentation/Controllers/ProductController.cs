@@ -17,19 +17,20 @@ namespace Inlupp1ProduktPresentation.Controllers
             _dbContext = dbContext;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string searchInput)
         {
             var viewModel = new ProductIndexViewModel
             {
-                Title = "Alla Produkter",
-                Products = _dbContext.Products.Where(dbP=>dbP.PublishedOnWebsite).Select(dbProd => new ProductViewModel
-                {
-                    Id = dbProd.Id,
-                    Description = dbProd.Description,
-                    Name = dbProd.Name,
-                    Price = dbProd.Price,
-                    ImageName = ConvertToImageName(dbProd.Name)
-                }).ToList()
+                Products = _dbContext.Products
+                    .Where(dbP => (searchInput == null || dbP.Name.Contains(searchInput) || dbP.Description.Contains(searchInput)) && dbP.PublishedOnWebsite)
+                    .Select(dbProd => new ProductViewModel
+                    {
+                        Id = dbProd.Id,
+                        Description = dbProd.Description,
+                        Name = dbProd.Name,
+                        Price = dbProd.Price,
+                        ImageName = ConvertToImageName(dbProd.Name)
+                    }).ToList()
             };
             return View(viewModel);
         }
