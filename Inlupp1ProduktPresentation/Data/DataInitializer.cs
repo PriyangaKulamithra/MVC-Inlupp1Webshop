@@ -14,7 +14,41 @@ namespace Inlupp1ProduktPresentation.Data
             dbContext.Database.Migrate();
             SeedCategories(dbContext);
             SeedProducts(dbContext);
-            //SeedUsers(dbContext); //BEHÖVS DENNA? 
+            SeedRoles(dbContext);
+            SeedUsers(userManager);
+        }
+
+        private static void SeedUsers(UserManager<IdentityUser> userManager)
+        {
+            AddUserIfNotExists(userManager, "stefan.holmberg@systementor.se",
+                "Hejsan123#", new[] { "Admin" });
+
+            AddUserIfNotExists(userManager, "stefan.holmbergmanager@systementor.se",
+                "Hejsan123#", new [] {"Product Manager"});
+        }
+
+        private static void AddUserIfNotExists(UserManager<IdentityUser> userManager, string userName, string password, string[] roles)
+        {
+            if (userManager.FindByEmailAsync(userName).Result != null) return;
+
+            var identityUser = new IdentityUser
+            {
+                UserName = userName,
+                Email = userName,
+                EmailConfirmed = true
+            };
+            var result = userManager.CreateAsync(identityUser, password).Result;
+            var r = userManager.AddToRolesAsync(identityUser, roles).Result;
+        }
+
+        private static void SeedRoles(ApplicationDbContext dbContext)
+        {
+            var role = dbContext.Roles.FirstOrDefault(r => r.Name == "Admin");
+            if (role == null) dbContext.Roles.Add(new IdentityRole{Name = "Admin", NormalizedName = "Admin"});
+
+            role = dbContext.Roles.FirstOrDefault(r => r.Name == "Product Manager");
+            if (role == null) dbContext.Roles.Add( new IdentityRole { Name = "Product Manager", NormalizedName = "Product Manager"});
+            dbContext.SaveChanges();
         }
 
         private static void SeedProducts(ApplicationDbContext dbContext)
