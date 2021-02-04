@@ -24,7 +24,7 @@ namespace Inlupp1ProduktPresentation.Data
                 "Hejsan123#", new[] { "Admin" });
 
             AddUserIfNotExists(userManager, "stefan.holmbergmanager@systementor.se",
-                "Hejsan123#", new [] {"Product Manager"});
+                "Hejsan123#", new [] {"ProductManager"});
         }
 
         private static void AddUserIfNotExists(UserManager<IdentityUser> userManager, string userName, string password, string[] roles)
@@ -46,8 +46,9 @@ namespace Inlupp1ProduktPresentation.Data
             var role = dbContext.Roles.FirstOrDefault(r => r.Name == "Admin");
             if (role == null) dbContext.Roles.Add(new IdentityRole{Name = "Admin", NormalizedName = "Admin"});
 
-            role = dbContext.Roles.FirstOrDefault(r => r.Name == "Product Manager");
-            if (role == null) dbContext.Roles.Add( new IdentityRole { Name = "Product Manager", NormalizedName = "Product Manager"});
+            role = dbContext.Roles.FirstOrDefault(r => r.Name == "ProductManager");
+            if (role == null) dbContext.Roles.Add( new IdentityRole { Name = "ProductManager", NormalizedName = "ProductManager"});
+
             dbContext.SaveChanges();
         }
 

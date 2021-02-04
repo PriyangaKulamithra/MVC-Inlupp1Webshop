@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Inlupp1ProduktPresentation.Data;
 using Inlupp1ProduktPresentation.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using Microsoft.Extensions.Localization;
 
 namespace Inlupp1ProduktPresentation.Controllers
 {
+    [Authorize(Roles = "Admin, ProductManager")]
     public class AdminController : Controller
     {
         private readonly ApplicationDbContext _dbContext;

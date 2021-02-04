@@ -1,12 +1,15 @@
-﻿@model Inlupp1ProduktPresentation.Models.ViewModels.AdminIndexViewModel
-@*@model Microsoft.AspNetCore.Identity.UserLoginInfo*@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@model Inlupp1ProduktPresentation.Models.ViewModels.AdminIndexViewModel
+
 @{
-    ViewData["Title"] = "Startsida";
+    ViewData["Title"] = "Admin-startsida";
 }
 
 
 <div class="text-center">
-    <h3>Välkommen INLOGGSNAMN</h3>
+    <h3>Välkommen @User.Identity.Name!</h3>
 </div>
 <div>
     <div class="row text-center">
@@ -15,7 +18,7 @@
             <a asp-controller="Admin" asp-action="AllProducts">Redigera produkter</a>
         </div>
         <div class="col card p-3 m-5">
-            Kategorier: @Model.NumberOfCategories st<br/>
+            Kategorier: @Model.NumberOfCategories st<br />
             <a asp-controller="Admin" asp-action="AllCategories">Redigera kategorier</a>
         </div>
     </div>
