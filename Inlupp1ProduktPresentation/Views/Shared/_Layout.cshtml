@@ -38,7 +38,13 @@
                         @if (User.IsInRole("Admin"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-light" asp-controller="Admin" asp-action="Index">Redigeringsverktyg</a>
+                                <a class="nav-link text-light" asp-controller="Admin" asp-action="Index">Backoffice</a>
+                            </li>
+                        }
+                        @if (User.IsInRole("ProductManager"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-controller="Admin" asp-action="Index">Backoffice</a>
                             </li>
                         }
                     </ul>
@@ -47,6 +53,7 @@
 
             </div>
         </nav>
+        
     </header>
 
     <div style="color: rgb(64, 145, 108)" class="container">

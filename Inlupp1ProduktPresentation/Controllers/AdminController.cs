@@ -53,10 +53,10 @@ namespace Inlupp1ProduktPresentation.Controllers
                 Name = dbProd.Name,
                 Description = dbProd.Description,
                 Price = dbProd.Price,
-                SelectedCategoryId = dbProd.Category.Id,
-                PublishOnWebsite = dbProd.PublishedOnWebsite
+                SelectedCategoryId = dbProd.Category == null ? 0 : dbProd.Category.Id,
+                PublishOnWebsite = dbProd.PublishedOnWebsite,
+                Categories = GetCategoryListItems()
             };
-            viewModel.Categories = GetCategoryListItems();
             return View(viewModel);
         }
         [HttpPost]
@@ -142,6 +142,7 @@ namespace Inlupp1ProduktPresentation.Controllers
         {
             var isAlreadyRegisteredName = RegisteredCategoryNames().FirstOrDefault(n => n.ToLower() == viewModel.Name.ToLower());
             if (isAlreadyRegisteredName != null) ModelState.AddModelError("Name", "Detta kategorinamn är redan registrerat.");
+
             if (ModelState.IsValid)
             {
                 var dbCategory = _dbContext.Categories.First(c => c.Id == id);
@@ -155,9 +156,20 @@ namespace Inlupp1ProduktPresentation.Controllers
         public IActionResult DeleteCategory(int id)
         {
             var dbCategory = _dbContext.Categories.First(c => c.Id == id);
+            var productsInCategory = _dbContext.Products.Include(p=>p.Category).Where(p => p.Category.Id == id).ToList();
+            SetCategoryToNull(productsInCategory);
             _dbContext.Categories.Remove(dbCategory);
             _dbContext.SaveChanges();
             return RedirectToAction("AllCategories");
+        }
+
+        private void SetCategoryToNull(List<Product> productsInCategory)
+        {
+            var list = productsInCategory;
+            foreach (var p in list)
+            {
+                p.Category = null;
+            }
         }
 
         public IActionResult NewCategory()

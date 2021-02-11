@@ -21,7 +21,7 @@ namespace Inlupp1ProduktPresentation.Models.ViewModels
 
         public bool PublishOnWebsite { get; set; }
 
-        [Range(1, 20, ErrorMessage = " - Kategori måste fyllas i.")]
+        [Range(1, 1000, ErrorMessage = " - Kategori måste fyllas i.")]
         public int SelectedCategoryId { get; set; }
 
         public List<SelectListItem> Categories { get; set; } = new List<SelectListItem>();
