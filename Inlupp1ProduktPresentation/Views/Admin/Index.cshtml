@@ -4,7 +4,7 @@
 @model Inlupp1ProduktPresentation.Models.ViewModels.AdminIndexViewModel
 
 @{
-    ViewData["Title"] = "Admin-startsida";
+    ViewData["Title"] = "BackOffice";
 }
 
 
@@ -21,5 +21,12 @@
             Kategorier: @Model.NumberOfCategories st<br />
             <a asp-controller="Admin" asp-action="AllCategories">Redigera kategorier</a>
         </div>
+        @if (User.IsInRole("Admin"))
+        {
+            <div class="col card p-3 m-5">
+                Användare: @Model.NumberOfUsers st<br />
+                <a asp-controller="Admin" asp-action="AllUsers">Redigera användare</a>
+            </div>
+        }
     </div>
 </div>

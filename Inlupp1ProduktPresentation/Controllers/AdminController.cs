@@ -4,9 +4,11 @@ using System.Linq;
 using Inlupp1ProduktPresentation.Data;
 using Inlupp1ProduktPresentation.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Localization;
 
 namespace Inlupp1ProduktPresentation.Controllers
@@ -25,6 +27,7 @@ namespace Inlupp1ProduktPresentation.Controllers
             var viewModel = new AdminIndexViewModel();
             viewModel.NumberOfProducts = _dbContext.Products.Count();
             viewModel.NumberOfCategories = _dbContext.Categories.Count();
+            viewModel.NumberOfUsers = _dbContext.Users.Count();
             return View(viewModel);
         }
 
@@ -204,6 +207,29 @@ namespace Inlupp1ProduktPresentation.Controllers
             list.Add(new SelectListItem("Välj kategori", "0"));
             list.AddRange(_dbContext.Categories.Select(c => new SelectListItem { Text = c.Name, Value = c.Id.ToString() }));
             return list;
+        }
+
+        [Authorize(Roles = "Admin")]
+        public IActionResult AllUsers()
+        {
+            var viewModel = new AdminAllUsersViewModel();
+            viewModel.AllUsers = _dbContext.Users.Select(u => new AdminAllUsersViewModel.RegisteredUser
+            {
+                Id = u.Id,
+                UserName = u.UserName,
+                Email = u.Email
+            }).ToList();
+            foreach (var user in viewModel.AllUsers) user.Role = GetRoleName(user.Id);
+
+            return View(viewModel);
+        }
+
+        private string GetRoleName(string userId)
+        {
+            var userRole = _dbContext.UserRoles.FirstOrDefault(ur => ur.UserId == userId);
+            if (userRole == null) return null;
+            var roleName = _dbContext.Roles.First(r => r.Id == userRole.RoleId).Name;
+            return roleName;
         }
     }
 }

@@ -9,6 +9,6 @@ namespace Inlupp1ProduktPresentation.Models.ViewModels
     {
         public string CategoryName { get; set; }
         public string CategoryDescription { get; set; }
-        public List<ProductViewModel> Products { get; set; } = new List<ProductViewModel>();
+        public List<ProductViewModel> Products { get; set; }
     }
 }

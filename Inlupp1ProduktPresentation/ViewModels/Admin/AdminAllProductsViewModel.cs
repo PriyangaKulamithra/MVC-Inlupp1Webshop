@@ -5,7 +5,7 @@ namespace Inlupp1ProduktPresentation.Models.ViewModels
     public class AdminAllProductsViewModel
     {
         public int NumberOfProducts { get; set; }
-        public List<AdminProductViewModel> Products { get; set; } = new List<AdminProductViewModel>();
+        public List<AdminProductViewModel> Products { get; set; }
 
         public class AdminProductViewModel
         {

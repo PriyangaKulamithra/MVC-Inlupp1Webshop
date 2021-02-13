@@ -4,7 +4,7 @@ namespace Inlupp1ProduktPresentation.Models.ViewModels
 {
     public class AdminAllCategoriesViewModel
     {
-        public List<AdminCategoryViewModel> Categories { get; set; } = new List<AdminCategoryViewModel>();
+        public List<AdminCategoryViewModel> Categories { get; set; }
         public int NumberOfCategories { get; set; }
 
         public class AdminCategoryViewModel

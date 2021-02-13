@@ -7,6 +7,14 @@
 
   <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
+    <None Include="wwwroot\gamla\vendor\node-sass\node_modules\cross-spawn\index.js" />
+    <None Include="wwwroot\gamla\vendor\node-sass\node_modules\cross-spawn\lib\enoent.js" />
+    <None Include="wwwroot\gamla\vendor\node-sass\node_modules\cross-spawn\lib\parse.js" />
+    <None Include="wwwroot\gamla\vendor\node-sass\node_modules\cross-spawn\lib\resolveCommand.js" />
+    <None Include="wwwroot\vendor\node-sass\node_modules\cross-spawn\index.js" />
+    <None Include="wwwroot\vendor\node-sass\node_modules\cross-spawn\lib\enoent.js" />
+    <None Include="wwwroot\vendor\node-sass\node_modules\cross-spawn\lib\parse.js" />
+    <None Include="wwwroot\vendor\node-sass\node_modules\cross-spawn\lib\resolveCommand.js" />
   </ItemGroup>
 
   <ItemGroup>
@@ -15,6 +23,32 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\gamla\vendor\jquery.cookie\test\" />
+    <Folder Include="wwwroot\gamla\vendor\node-sass\src\" />
+    <Folder Include="wwwroot\gamla\vendor\node-sass\test\" />
+    <Folder Include="wwwroot\gamla\vendor\nouislider\distribute\" />
+    <Folder Include="wwwroot\vendor\jquery.cookie\test\" />
+    <Folder Include="wwwroot\vendor\node-sass\src\" />
+    <Folder Include="wwwroot\vendor\node-sass\test\" />
+    <Folder Include="wwwroot\vendor\nouislider\distribute\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\gamla\css\mystylesheet.css">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\gamla\css\site.css">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\gamla\js\site.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

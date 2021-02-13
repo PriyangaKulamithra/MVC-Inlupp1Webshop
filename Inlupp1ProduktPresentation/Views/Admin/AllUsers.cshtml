@@ -1,0 +1,39 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@model Inlupp1ProduktPresentation.Models.ViewModels.AdminAllUsersViewModel
+
+@{
+    ViewData["Title"] = "Alla användare";
+}
+
+
+
+USERS
+
+@foreach (var user in @Model.AllUsers)
+{
+    @user.UserName<br/>
+    @user.Email<br/>
+    if (@user.Role != null)
+    {
+        @user.Role
+    }
+    <hr/>
+}
+
+@*<div class="text-center">
+        <h3>Välkommen @User.Identity.Name!</h3>
+    </div>
+    <div>
+        <div class="row text-center">
+            <div class="col card p-3 m-5">
+                Registrerade produkter: @Model.NumberOfProducts st<br />
+                <a asp-controller="Admin" asp-action="AllProducts">Redigera produkter</a>
+            </div>
+            <div class="col card p-3 m-5">
+                Kategorier: @Model.NumberOfCategories st<br />
+                <a asp-controller="Admin" asp-action="AllCategories">Redigera kategorier</a>
+            </div>
+        </div>
+    </div>*@
