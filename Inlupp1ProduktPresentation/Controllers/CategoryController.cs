@@ -54,5 +54,10 @@ namespace Inlupp1ProduktPresentation.Controllers
             imgName = imgName.Replace('ö', 'o');
             return imgName;
         }
+
+        public IActionResult _RenderBreadcrumb(string activeController, string product)
+        {
+            return View();
+        }
     }
 }
