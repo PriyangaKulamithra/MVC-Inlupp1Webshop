@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Inlupp1ProduktPresentation.Data;
 using Inlupp1ProduktPresentation.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -300,11 +301,18 @@ namespace Inlupp1ProduktPresentation.Controllers
             }
             return false;
         }
-
-        //public IActionResult DeleteUser(string id)
-        //{
-        //    return View();
-        //}
+        [HttpPost]
+        public async Task<IActionResult> DeleteUser(string id)
+        {
+            var user =  await _userManager.FindByIdAsync(id);
+            if (user != null)
+            {
+                var result = await _userManager.DeleteAsync(user);
+                if (result.Succeeded) return RedirectToAction("AllUsers");
+            }
+            
+            return RedirectToAction("AllUsers");
+        }
         private string GetRoleId(string userId)
         {
             var userRole = _dbContext.UserRoles.FirstOrDefault(ur => ur.UserId == userId);
