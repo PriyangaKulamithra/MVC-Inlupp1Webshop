@@ -225,6 +225,24 @@ namespace Inlupp1ProduktPresentation.Controllers
             return View(viewModel);
         }
 
+        [Authorize(Roles = "Admin")]
+        public IActionResult _EditUser(string id)
+        {
+            var user = _dbContext.Users.First(dbUser => dbUser.Id == id);
+            var viewModel = new _EditUserViewModel
+            {
+                Id = user.Id,
+                UserName = user.UserName,
+                Email = user.Email,
+                Role = GetRoleName(user.Id)
+            };
+            return View(viewModel);
+        }
+
+        //public IActionResult DeleteUser(string id)
+        //{
+        //    return View();
+        //}
         private string GetRoleName(string userId)
         {
             var userRole = _dbContext.UserRoles.FirstOrDefault(ur => ur.UserId == userId);
