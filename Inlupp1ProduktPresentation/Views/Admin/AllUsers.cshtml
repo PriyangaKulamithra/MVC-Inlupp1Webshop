@@ -25,48 +25,36 @@
         @foreach (var user in Model.AllUsers)
         {
             <tr>
-                <td>@user.Id</td>
-                <td><a href="#" onclick="EditUser(@user.Id);">@user.UserName</a></td>
-                <td>@user.Email</td>
-                <td>
-                    @if (@user.Role != null)
-                    {
-                        @user.Role
-                    }
-                </td>
-                @* <td><button onclick="EditUser(@user.Id);" class="btn btn-primary btn-sm active" style="background-color: rgb(64, 145, 108)" role="button" aria-pressed="true">Redigera</button></td>*@
-                <!--<td><a--> @*asp-controller="Admin" asp-action="_EditUser" asp-route-id="@user.Id"*@ <!--href="#" onclick="EditUser(@user.Id)" class="btn btn-danger">Redigera</a></td>-->
-                @*<td><a asp-controller="Admin" asp-action="DeleteUser" asp-route-Id="@user.Id" class="btn btn-primary btn-sm active" style="background-color: rgb(64, 145, 108)" role="button" aria-pressed="true">Ta bort</a></td>*@
-            </tr>
+            <td>@user.Id</td>
+            <td>@user.UserName</td>
+            <td>@user.Email</td>
+            <td>
+                @if (@user.Role != null)
+                {
+                    @user.Role
+                }
+            </td>
+            <td><button class="btn btn-primary btn-sm active btn-edit" data-value="@user.Id" style="background-color: rgb(64, 145, 108)" role="button" aria-pressed="true">Redigera</button></td>
+            <td><button class="btn btn-danger btn-sm active btn-delete" data-value="@user.Id"role="button" aria-pressed="true">Ta bort</button></td>
+        </tr>
         }
     </tbody>
 </table>
 
-<button class="btn-danger" onclick="test">KLICK ME</button>
-
 @section Scripts
 {
     <script>
-        function EditUser(id) {
-            $.ajax({
-                url: "/Admin/_EditUser?id=" + id,
-                success: function(result) {
-                    $("#userDetails").html(result);
-                }
+        $(document).ready(function() {
+        
+            $('.btn-edit').click(function () {
+                var value = $(this).data("value");
+                $.ajax({
+                    url: "/Admin/_EditUser?selectedID=" + value,
+                    success: function (result) {
+                        $('#userDetails').html(result);
+                    }
+                });
             });
-
-        }
+        });
     </script>
-    
-    <script>
-        function test() {
-            $.ajax({
-                url: "/Admin/_EditUser?id=23ebf4dc-203d-4cdf-9a38-29a5840cd50a",
-                success: function(result) {
-                    $("#testar").html(result);
-                }
-            });
-        }
-    </script>
-}
-
+    }

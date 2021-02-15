@@ -2,10 +2,43 @@
 
 @{
     Layout = null;
+    Model.PreviousSelectedRoleId = Model.SelectedRoleId;
 }
 
-HEJ <br/>
-@Model.Id <br/>
-@Model.UserName <br/>
-@Model.Email <br/>
-@Model.Role <br/>
+
+<div class="card mb-4" id="forms">
+    <div class="card-header">Redigera användare</div>
+    <div class="card-body">
+        <form method="post" asp-controller="Admin" asp-action="_EditUser" asp-route-id="@Model.Id">
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" asp-for="UserName">Användarnamn</label>
+                <div class="col-sm-10">
+                    <input class="form-control" asp-for="UserName" placeholder="Användarnamn">
+                    <span asp-validation-for="UserName"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" asp-for="Email">Email</label>
+                <div class="col-sm-10">
+                    <input class="form-control" asp-for="Email" placeholder="Email">
+                    <span asp-validation-for="Email"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-2">Användarroll</div>
+                <div class="col-sm-10">
+                    <div class="form-check">
+                        <select asp-for="SelectedRoleId" asp-items="Model.Roles"></select>
+                        <span asp-validation-for="SelectedRoleId"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-sm-10">
+                    <button class="btn btn-primary" type="submit">Spara</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

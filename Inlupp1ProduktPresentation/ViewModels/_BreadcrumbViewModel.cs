@@ -2,7 +2,7 @@
 {
     public class _BreadcrumbViewModel
     {
-        public string ActiveController { get; set; }
+        public string Category { get; set; }
         public string Product { get; set; }
     }
 }
