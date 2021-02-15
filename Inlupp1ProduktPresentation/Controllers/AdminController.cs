@@ -4,6 +4,7 @@ using System.Linq;
 using Inlupp1ProduktPresentation.Data;
 using Inlupp1ProduktPresentation.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.DataProtection.XmlEncryption;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -31,11 +32,11 @@ namespace Inlupp1ProduktPresentation.Controllers
             return View(viewModel);
         }
 
-        public IActionResult AllProducts()
+        public IActionResult AllProducts(string searchInput)
         {
             var viewModel = new AdminAllProductsViewModel();
             viewModel.NumberOfProducts = _dbContext.Products.Count();
-            viewModel.Products = _dbContext.Products.Select(dbProd => new AdminAllProductsViewModel.AdminProductViewModel()
+            viewModel.Products = _dbContext.Products.Where(dbprod=>(searchInput == null) || dbprod.Name.Contains(searchInput)).Select(dbProd => new AdminAllProductsViewModel.AdminProductViewModel()
             {
                 Id = dbProd.Id,
                 Name = dbProd.Name,

@@ -10,6 +10,12 @@
         activeController = ViewContext.RouteData.Values["Controller"].ToString();
     }
 
+    var actionResult = "";
+    if (ViewContext.RouteData.Values["Action"] != null)
+    {
+        actionResult = ViewContext.RouteData.Values["Action"].ToString();
+    }
+
 }
 
 <!DOCTYPE html>
@@ -37,6 +43,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Martel+Sans:wght@300;400;800&amp;display=swap">
     <!-- theme stylesheet-->
     <link href="~/css/style.green.css" rel="stylesheet" />
+    <link href="~/css/mystyle.css" rel="stylesheet" />
     <!-- Favicon-->
     <link rel="shortcut icon" href="~/img/favicon.png">
 
@@ -44,35 +51,35 @@
     <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
-    <style>
-        .breadcrumbs {
-            padding: 10px;
-            font-family: sans-serif;
-        }
+    @*<style>
+            .breadcrumbs {
+                padding: 10px;
+                font-family: sans-serif;
+            }
 
-        .breadcrumbs__item {
-            display: inline-block;
-        }
+            .breadcrumbs__item {
+                display: inline-block;
+            }
 
-        .breadcrumbs__item:not(:last-of-type)::after {
-            content: '\203a';
-            margin: 0 5px;
-            color: #ccc;
-        }
+            .breadcrumbs__item:not(:last-of-type)::after {
+                content: '\203a';
+                margin: 0 5px;
+                color: #ccc;
+            }
 
-        .breadcrumbs__link {
-            text-decoration: none;
-            color: #999;
-        }
+            .breadcrumbs__link {
+                text-decoration: none;
+                color: #999;
+            }
 
-        .breadcrumbs__link:hover {
-            text-decoration: underline;
-        }
+            .breadcrumbs__link:hover {
+                text-decoration: underline;
+            }
 
-        .breadcrumbs__link--active {
-            color: rgb(77, 75, 75);
-        }
-    </style>
+            .breadcrumbs__link--active {
+                color: rgb(77, 75, 75);
+            }
+        </style>*@
 </head>
 <body>
     <div class="page-holder">
@@ -157,11 +164,8 @@
 
         <script>
             $(document).ready(function() {
-
-
+            
                 $(function RenderBreadcrumb() {
-
-
                     if ("@activeController" !== "Home") {
                         $('.breadcrumbs').append('<li class="breadcrumbs__item"></li>');
                         $('.breadcrumbs__item').append('<a href="/Home" class="breadcrumbs__link">Startsida</a>');
@@ -171,18 +175,14 @@
                         }
                         if ("@activeController" === "Product") {
                             $('.breadcrumbs').append('<li class="breadcrumbs__item"></li>');
-                            $('.breadcrumbs__item:last').append('<a href="/Product" class="breadcrumbs__link">Produkter</a>');
+                            $('.breadcrumbs__item:last').append('<a href="/Product" class="breadcrumbs__link breadcrumbs__link--active">Produkter</a>');
                         }
                         if ("@activeController" === "Admin") {
                             $('.breadcrumbs').append('<li class="breadcrumbs__item"></li>');
-                            $('.breadcrumbs__item:last').append('<a href="/Admin" class="breadcrumbs__link">Backoffice</a>');
+                            $('.breadcrumbs__item:last').append('<a href="/Admin" class="breadcrumbs__link breadcrumbs__link--active">Backoffice</a>');
                         }
                     }
-
-
-
                 });
-
             });
         </script>
 

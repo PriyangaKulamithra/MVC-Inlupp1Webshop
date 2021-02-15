@@ -13,6 +13,12 @@
     Antal produkter: @Model.NumberOfProducts
     <a asp-controller="Admin" asp-action="NewProduct" style="background-color: rgb(64, 145, 108);" class="btn btn-sm active btn-secondary" role="button" aria-pressed="true">Lägg till produkt</a>
 </div>
+<div class="m-2">
+    <form method="get" asp-controller="Admin" asp-action="AllProducts" class="form-inline ml-1 my-2 my-lg-0 input-group-sm">
+        <input type="search" name="searchInput" class="form-control mr-sm-2" placeholder="Sök produktnamn">
+        <button class="btn btn-sm btn-outline-light my-2 my-sm-0" style="border-radius: .25rem;" type="submit">Sök</button>
+    </form>
+</div>
 <table class="table table-hover">
     <thead>
     <tr>
@@ -21,6 +27,8 @@
         <th scope="col">Kategori</th>
         <th scope="col">Pris</th>
         <th scope="col text-center">Publicerad</th>
+        <th></th>
+        <th></th>
     </tr>
     </thead>
     <tbody>
