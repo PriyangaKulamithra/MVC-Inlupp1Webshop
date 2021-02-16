@@ -25,7 +25,7 @@ namespace Inlupp1ProduktPresentation.Controllers
         public IActionResult Index()
         {
             var viewModel = new HomeIndexViewModel();
-            viewModel.Categories = _dbContext.Categories.Select(dbCategory => new CategoryViewModel()
+            viewModel.Categories = _dbContext.Categories.Select(dbCategory => new HomeIndexViewModel.CategoryViewModel
             {
                 Name = dbCategory.Name,
                 Id = dbCategory.Id,

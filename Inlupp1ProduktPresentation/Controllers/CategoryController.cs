@@ -20,7 +20,7 @@ namespace Inlupp1ProduktPresentation.Controllers
         public IActionResult Index()
         {
             var viewModel = new CategoryIndexViewModel();
-            viewModel.Categories = _dbContext.Categories.Select(dbCat => new CategoryViewModel
+            viewModel.Categories = _dbContext.Categories.Select(dbCat => new CategoryIndexViewModel.CategoryViewModel
             {
                 Id = dbCat.Id,
                 Name = dbCat.Name,
@@ -34,7 +34,7 @@ namespace Inlupp1ProduktPresentation.Controllers
             var viewModel = new CategoryGetProductsViewModel{ CategoryName = model.Name, CategoryDescription = model.CategoryDescription};
             
             var products = _dbContext.Products.Where(prod => prod.Category.Id == id && prod.PublishedOnWebsite).ToList();
-            viewModel.Products = products.Select(prod => new ProductViewModel()
+            viewModel.Products = products.Select(prod => new CategoryGetProductsViewModel.ProductViewModel()
             {
                 Id = prod.Id,
                 Name = prod.Name,

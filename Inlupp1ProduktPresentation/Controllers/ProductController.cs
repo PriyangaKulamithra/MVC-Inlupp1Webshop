@@ -23,7 +23,7 @@ namespace Inlupp1ProduktPresentation.Controllers
             {
                 Products = _dbContext.Products
                     .Where(dbP => (searchInput == null || dbP.Name.Contains(searchInput) || dbP.Description.Contains(searchInput)) && dbP.PublishedOnWebsite)
-                    .Select(dbProd => new ProductViewModel
+                    .Select(dbProd => new ProductIndexViewModel.ProductViewModel
                     {
                         Id = dbProd.Id,
                         Description = dbProd.Description,
