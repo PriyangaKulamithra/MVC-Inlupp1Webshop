@@ -12,3 +12,18 @@
         @Model.Price kronor
     </div>
 </div>
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function() {
+
+            $(function RenderBreadcrumb() {
+
+                $('.breadcrumbs').append('<li class="breadcrumbs__item"></li>');
+                $('li.breadcrumbs__item:last').append('<a href="/Category" class="breadcrumbs__link breadcrumbs__link--active">@Model.Name</a>');
+
+            });
+        });
+    </script>
+}

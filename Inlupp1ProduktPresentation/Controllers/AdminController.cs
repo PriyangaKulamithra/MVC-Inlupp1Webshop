@@ -230,26 +230,64 @@ namespace Inlupp1ProduktPresentation.Controllers
             return View(viewModel);
         }
 
-        [Authorize(Roles = "Admin")]
-        public IActionResult _EditUser(string selectedID)
+        //[Authorize(Roles = "Admin")]
+        //public IActionResult _EditUser(string selectedID)
+        //{
+        //    var user = _dbContext.Users.First(dbUser => dbUser.Id == selectedID);
+        //    var viewModel = new _EditUserViewModel
+        //    {
+        //        Id = user.Id,
+        //        UserName = user.UserName,
+        //        Email = user.Email,
+        //        Role = GetRoleName(user.Id),
+        //        Roles = GetRolesListItems()
+        //    };
+        //    viewModel.SelectedRoleId = viewModel.Role == null ? "0" : GetRoleId(user.Id);
+        //    return View(viewModel);
+        //}
+
+   
+        public async Task<IActionResult> _EditUser(string id)
         {
-            var user = _dbContext.Users.First(dbUser => dbUser.Id == selectedID);
-            var viewModel = new _EditUserViewModel
+            var user = await _userManager.FindByIdAsync(id);
+            if (user != null)
             {
-                Id = user.Id,
-                UserName = user.UserName,
-                Email = user.Email,
-                Role = GetRoleName(user.Id),
-                Roles = GetRolesListItems()
-            };
-            viewModel.SelectedRoleId = viewModel.Role == null ? "0" : GetRoleId(user.Id);
-            return View(viewModel);
+                var viewModel = new _EditUserViewModel
+                {
+                    Id = user.Id,
+                    UserName = user.UserName,
+                    Email = user.Email
+                };
+                viewModel.Roles = GetRolesListItems();
+                var roles =_userManager.GetRolesAsync(user).ToString();
+                if (roles != null)
+                {
+                    viewModel.Role = GetRoleName(user.Id);
+                    viewModel.SelectedRoleId = GetRoleId(user.Id);
+                }
+                else
+                {
+                    return View(viewModel);
+                }
+            }
+            return RedirectToAction("AllUsers");
         }
 
         [HttpPost]
-        public IActionResult _EditUser(string id, _EditUserViewModel model)
+        public async Task<IActionResult> _EditUser(_EditUserViewModel model)
         {
-            var user = _dbContext.Users.First(u => u.Id == id);
+            var user = await _userManager.FindByIdAsync(model.Id);
+
+            if (user != null)
+            {
+                user.UserName = model.UserName;
+                user.Email = model.Email;
+                var roles = await _userManager.AddToRoleAsync(user, model.Role);
+                var r = await _userManager.RemoveFromRoleAsync(user, model.PreviousSelectedRoleId);
+            }
+
+            
+
             //var isAllowedToChangeRoleFromAdmin = IsOnlyAdmin(user);
 
             //if(!isAllowedToChangeRoleFromAdmin)
@@ -268,21 +306,21 @@ namespace Inlupp1ProduktPresentation.Controllers
 
             //}
 
-            if (ModelState.IsValid)
-            {
-                user.UserName = model.UserName;
-                user.Email = model.Email;
-                var selectedRole = _dbContext.Roles.FirstOrDefault(r => r.Id == model.SelectedRoleId);
-                if (selectedRole != null) { var r = _userManager.AddToRolesAsync(user, new[] { selectedRole.Name }).Result; }
+            //if (ModelState.IsValid)
+            //{
+            //    user.UserName = model.UserName;
+            //    user.Email = model.Email;
+            //    var selectedRole = _dbContext.Roles.FirstOrDefault(r => r.Id == model.SelectedRoleId);
+            //    if (selectedRole != null) { var r = _userManager.AddToRolesAsync(user, new[] { selectedRole.Name }).Result; }
 
-                //if (model.PreviousSelectedRoleId != "0")
-                //{
-                //    var previousRole = _dbContext.Roles.First(role => role.Id == model.PreviousSelectedRoleId);
-                //    var r = _userManager.RemoveFromRoleAsync(user, previousRole.Name).Result;
-                //}
-                _dbContext.SaveChanges();
-                return RedirectToAction("AllUsers");
-            }
+            //    //if (model.PreviousSelectedRoleId != "0")
+            //    //{
+            //    //    var previousRole = _dbContext.Roles.First(role => role.Id == model.PreviousSelectedRoleId);
+            //    //    var r = _userManager.RemoveFromRoleAsync(user, previousRole.Name).Result;
+            //    //}
+            //    _dbContext.SaveChanges();
+            //    return RedirectToAction("AllUsers");
+            //}
 
             model.Roles = GetRolesListItems();
             return View(model);
