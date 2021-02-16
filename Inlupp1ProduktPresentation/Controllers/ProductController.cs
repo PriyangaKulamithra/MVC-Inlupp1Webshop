@@ -50,6 +50,7 @@ namespace Inlupp1ProduktPresentation.Controllers
             var product = _dbContext.Products.First(prod => prod.Id == id);
             var viewModel = new ProductDetailsViewModel()
             {
+                Id = product.Id,
                 Name = product.Name,
                 Description = product.Description,
                 Price = product.Price,

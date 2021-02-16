@@ -21,7 +21,8 @@
             $(function RenderBreadcrumb() {
 
                 $('.breadcrumbs').append('<li class="breadcrumbs__item"></li>');
-                $('li.breadcrumbs__item:last').append('<a href="/Category" class="breadcrumbs__link breadcrumbs__link--active">@Model.Name</a>');
+                $('a.breadcrumbs__link').removeClass('breadcrumbs__link--active');
+                $('li.breadcrumbs__item:last').append('<a href="#" class="breadcrumbs__link breadcrumbs__link--active">@Model.Name</a>');
 
             });
         });

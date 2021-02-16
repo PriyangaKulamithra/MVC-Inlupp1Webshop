@@ -219,7 +219,14 @@ namespace Inlupp1ProduktPresentation.Controllers
         public IActionResult AllUsers()
         {
             var viewModel = new AdminAllUsersViewModel();
-            viewModel.AllUsers = _dbContext.Users.Select(u => new AdminAllUsersViewModel.RegisteredUser
+            //viewModel.AllUsers = _dbContext.Users.Select(u => new AdminAllUsersViewModel.RegisteredUser
+            //{
+            //    Id = u.Id,
+            //    UserName = u.UserName,
+            //    Email = u.Email
+            //}).ToList();
+
+            viewModel.AllUsers = _userManager.Users.Select(u => new AdminAllUsersViewModel.RegisteredUser
             {
                 Id = u.Id,
                 UserName = u.UserName,

@@ -25,22 +25,22 @@
         @foreach (var user in Model.AllUsers)
         {
             <tr>
-            <td>@user.Id</td>
-            <td>@user.UserName</td>
-            <td>@user.Email</td>
-            <td>
-                @if (@user.Role != null)
-                {
-                    @user.Role
-                }
-            </td>
-            <td><button class="btn btn-primary btn-sm active btn-edit" data-value="@user.Id" style="background-color: rgb(64, 145, 108)" role="button" aria-pressed="true">Redigera</button></td>
+                <td>@user.Id</td>
+                <td>@user.UserName</td>
+                <td>@user.Email</td>
+                <td>
+                    @if (@user.Role != null)
+                    {
+                        @user.Role
+                    }
+                </td>
+                <td><button class="btn btn-primary btn-sm active btn-edit" data-value="@user.Id" style="background-color: rgb(64, 145, 108)" role="button" aria-pressed="true">Redigera</button></td>
                 <td>
                     <form asp-controller="Admin" asp-action="DeleteUser" asp-route-id="@user.Id" method="post">
                         <button type="submit" class="btn btn-danger btn-sm active btn-delete" role="button" aria-pressed="true">Ta bort</button>
                     </form>
                 </td>
-        </tr>
+            </tr>
         }
     </tbody>
 </table>
@@ -48,8 +48,8 @@
 @section Scripts
 {
     <script>
-        $(document).ready(function() {
-        
+        $(document).ready(function () {
+
             $('.btn-edit').click(function () {
                 var value = $(this).data("value");
                 $.ajax({
@@ -59,6 +59,19 @@
                     }
                 });
             });
+
+
+
+            $(function RenderBreadcrumb() {
+
+                $('.breadcrumbs').append('<li class="breadcrumbs__item"></li>');
+                $('a.breadcrumbs__link').removeClass('breadcrumbs__link--active');
+                $('li.breadcrumbs__item:last').append('<a href="/AllUsers" class="breadcrumbs__link breadcrumbs__link--active">Registrerade användare</a>');
+
+            });
         });
+
     </script>
-    }
+}
+
+

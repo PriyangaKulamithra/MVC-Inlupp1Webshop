@@ -21,35 +21,52 @@
 </div>
 <table class="table table-hover">
     <thead>
-    <tr>
-        <th scope="col">Produktnamn</th>
-        <th scope="col">Beskrivning</th>
-        <th scope="col">Kategori</th>
-        <th scope="col">Pris</th>
-        <th scope="col text-center">Publicerad</th>
-        <th></th>
-        <th></th>
-    </tr>
+        <tr>
+            <th scope="col">Produktnamn</th>
+            <th scope="col">Beskrivning</th>
+            <th scope="col">Kategori</th>
+            <th scope="col">Pris</th>
+            <th scope="col text-center">Publicerad</th>
+            <th></th>
+            <th></th>
+        </tr>
     </thead>
     <tbody>
-    @foreach (var product in Model.Products)
-    {
-        <tr>
-            <td>@product.Name</td>
-            <td>@product.Description</td>
-            <td>@product.Category</td>
-            <td>@product.Price</td>
-            @if (product.IsPublished)
-            {
-                <td class="text-center">&#x2714;</td>
-            }
-            else
-            {
-                <td class="text-center">&#x2718;</td>
-            }
-            <td><a asp-controller="Admin" asp-action="EditProduct" asp-route-Id="@product.Id" class="btn btn-primary btn-sm active" style="background-color: rgb(64, 145, 108)" role="button" aria-pressed="true">Redigera</a></td>
-            <td><a asp-controller="Admin" asp-action="DeleteProduct" asp-route-Id="@product.Id" class="btn btn-primary btn-sm active" style="background-color: rgb(64, 145, 108)" role="button" aria-pressed="true">Ta bort</a></td>
-        </tr>
-    }
+        @foreach (var product in Model.Products)
+        {
+            <tr>
+                <td>@product.Name</td>
+                <td>@product.Description</td>
+                <td>@product.Category</td>
+                <td>@product.Price</td>
+                @if (product.IsPublished)
+                {
+                    <td class="text-center">&#x2714;</td>
+                }
+                else
+                {
+                    <td class="text-center">&#x2718;</td>
+                }
+                <td><a asp-controller="Admin" asp-action="EditProduct" asp-route-Id="@product.Id" class="btn btn-primary btn-sm active" style="background-color: rgb(64, 145, 108)" role="button" aria-pressed="true">Redigera</a></td>
+                <td><a asp-controller="Admin" asp-action="DeleteProduct" asp-route-Id="@product.Id" class="btn btn-primary btn-sm active" style="background-color: rgb(64, 145, 108)" role="button" aria-pressed="true">Ta bort</a></td>
+            </tr>
+        }
     </tbody>
 </table>
+
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function() {
+
+            $(function RenderBreadcrumb() {
+
+                $('.breadcrumbs').append('<li class="breadcrumbs__item"></li>');
+                $('a.breadcrumbs__link').removeClass('breadcrumbs__link--active');
+                $('li.breadcrumbs__item:last').append('<a href="/Admin/AllProducts" class="breadcrumbs__link breadcrumbs__link--active">Alla produkter</a>');
+
+            });
+        });
+    </script>
+}

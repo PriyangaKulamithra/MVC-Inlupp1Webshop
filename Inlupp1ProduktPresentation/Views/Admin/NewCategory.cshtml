@@ -19,3 +19,20 @@
         <button type="submit" class="btn btn-primary" style="background-color: rgb(64, 145, 108)">Spara</button>
     </div>
 </form>
+
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function() {
+
+            $(function RenderBreadcrumb() {
+
+                $('.breadcrumbs').append('<li class="breadcrumbs__item"></li>');
+                $('a.breadcrumbs__link').removeClass('breadcrumbs__link--active');
+                $('li.breadcrumbs__item:last').append('<a href="/Admin/NewCategory" class="breadcrumbs__link breadcrumbs__link--active">Ny Kategori</a>');
+
+            });
+        });
+    </script>
+}

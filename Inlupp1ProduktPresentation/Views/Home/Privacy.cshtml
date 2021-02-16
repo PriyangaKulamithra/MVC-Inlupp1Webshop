@@ -4,3 +4,19 @@
 <h1>@ViewData["Title"]</h1>
 
 <p>Use this page to detail your site's privacy policy.</p>
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function() {
+
+            $(function RenderBreadcrumb() {
+
+                $('.breadcrumbs').append('<li class="breadcrumbs__item"></li>');
+                $('a.breadcrumbs__link').removeClass('breadcrumbs__link--active');
+                $('li.breadcrumbs__item:last').append('<a href="#" class="breadcrumbs__link breadcrumbs__link--active">Privacy</a>');
+
+            });
+        });
+    </script>
+}
