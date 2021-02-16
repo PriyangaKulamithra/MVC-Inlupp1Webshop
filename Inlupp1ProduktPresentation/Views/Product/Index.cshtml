@@ -11,7 +11,12 @@
     <p>Klicka på produkt nedan.</p>
 </div>
 
+<a asp-controller="Product" asp-action="Index" asp-route-sortOrder="@Model.NameSort">Namn</></a>
+<a asp-controller="Product" asp-action="Index" asp-route-sortOrder="@Model.PriceSort">Pris</a>
+
+
 <div class="row">
+   
     @foreach (var product in Model.Products)
     {
         <div class="col-lg-4 col-md-6 p-5 text-center" style="letter-spacing: .2em; text-transform: uppercase;">

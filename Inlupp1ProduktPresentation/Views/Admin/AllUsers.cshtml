@@ -8,40 +8,40 @@
 }
 
 <div id="userDetails"></div>
-<div id="testar"></div>
 
 <table class="table table-hover">
+    <a asp-controller="Admin" asp-action="NewUser" style="background-color: rgb(64, 145, 108);" class="btn btn-sm active btn-secondary" role="button" aria-pressed="true">Lägg till ny användare</a>
     <thead>
-        <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Användarnamn</th>
-            <th scope="col">Email</th>
-            <th scope="col">Användarroll</th>
-            <th></th>
-            <th></th>
-        </tr>
+    <tr>
+        <th scope="col">Användarnamn</th>
+        <th scope="col">Email</th>
+        <th scope="col">Användarroll</th>
+        <th></th>
+        <th></th>
+    </tr>
     </thead>
     <tbody>
-        @foreach (var user in Model.AllUsers)
-        {
-            <tr>
-                <td>@user.Id</td>
-                <td>@user.UserName</td>
-                <td>@user.Email</td>
-                <td>
-                    @if (@user.Role != null)
-                    {
-                        @user.Role
-                    }
-                </td>
-                <td><button class="btn btn-primary btn-sm active btn-edit" data-value="@user.Id" style="background-color: rgb(64, 145, 108)" role="button" aria-pressed="true">Redigera</button></td>
-                <td>
-                    <form asp-controller="Admin" asp-action="DeleteUser" asp-route-id="@user.Id" method="post">
-                        <button type="submit" class="btn btn-danger btn-sm active btn-delete" role="button" aria-pressed="true">Ta bort</button>
-                    </form>
-                </td>
-            </tr>
-        }
+    @foreach (var user in Model.AllUsers)
+    {
+        <tr>
+            <td>@user.UserName</td>
+            <td>@user.Email</td>
+            <td>
+                @if (@user.Role != null)
+                {
+                    @user.Role
+                }
+            </td>
+            <td>
+                <button class="btn btn-primary btn-sm active btn-edit" data-value="@user.Id" style="background-color: rgb(64, 145, 108)" role="button" aria-pressed="true">Redigera</button>
+            </td>
+            <td>
+                <form asp-controller="Admin" asp-action="DeleteUser" asp-route-id="@user.Id" method="post">
+                    <button type="submit" class="btn btn-danger btn-sm active btn-delete" role="button" aria-pressed="true">Ta bort</button>
+                </form>
+            </td>
+        </tr>
+    }
     </tbody>
 </table>
 
@@ -53,7 +53,7 @@
             $('.btn-edit').click(function () {
                 var value = $(this).data("value");
                 $.ajax({
-                    url: "/Admin/_EditUser?selectedID=" + value,
+                    url: "/Admin/_EditUser?id=" + value,
                     success: function (result) {
                         $('#userDetails').html(result);
                     }

@@ -17,7 +17,7 @@ namespace Inlupp1ProduktPresentation.Controllers
             _dbContext = dbContext;
         }
 
-        public IActionResult Index(string searchInput)
+        public IActionResult Index(string searchInput, string sortOrder)
         {
             var viewModel = new ProductIndexViewModel
             {
@@ -32,6 +32,25 @@ namespace Inlupp1ProduktPresentation.Controllers
                         ImageName = ConvertToImageName(dbProd.Name)
                     }).ToList()
             };
+
+            viewModel.NameSort = String.IsNullOrEmpty(sortOrder) ? "name_asc" : "";
+            viewModel.PriceSort = sortOrder == "price_asc" ? "price_desc" : "price_asc";
+
+            switch (viewModel.NameSort)
+            {
+                case "name_asc":
+                    viewModel.Products = viewModel.Products.OrderBy(p => p.Name).ToList();
+                    break;
+                case "price_asc":
+                    viewModel.Products = viewModel.Products.OrderBy(p => p.Price).ToList();
+                    break;
+                case "price_desc":
+                    viewModel.Products = viewModel.Products.OrderByDescending(p => p.Price).ToList();
+                    break;
+                default:
+                    viewModel.Products = viewModel.Products.OrderByDescending(p => p.Name).ToList();
+                    break;
+            }
             return View(viewModel);
         }
 

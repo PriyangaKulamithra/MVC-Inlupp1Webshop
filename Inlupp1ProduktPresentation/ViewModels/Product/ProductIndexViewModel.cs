@@ -7,6 +7,8 @@ namespace Inlupp1ProduktPresentation.Models.ViewModels
 {
     public class ProductIndexViewModel
     {
+        public string NameSort { get; set; }
+        public string PriceSort { get; set; }
         public List<ProductViewModel> Products { get; set; }
 
         public class ProductViewModel

@@ -1,14 +1,14 @@
-﻿@model Inlupp1ProduktPresentation.Models.ViewModels._EditUserViewModel
+﻿@model Inlupp1ProduktPresentation.Models.ViewModels.AdminNewUserViewModel
 
 @{
-    Layout = null;
+    ViewData["Title"] = "Skapa ny användare";
 }
 
 
 <div class="card mb-4" id="forms">
-    <div class="card-header">Redigera användare</div>
+    <div class="card-header">Ny Användare</div>
     <div class="card-body">
-        <form method="post" asp-controller="Admin" asp-action="_EditUser" asp-route-id="@Model.Id">
+        <form method="post" asp-controller="Admin" asp-action="NewUser">
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label" asp-for="UserName">Användarnamn</label>
                 <div class="col-sm-10">
@@ -21,6 +21,20 @@
                 <div class="col-sm-10">
                     <input class="form-control" asp-for="Email" placeholder="Email">
                     <span asp-validation-for="Email" class="field-validation-error"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" asp-for="Password">Lösenord</label>
+                <div class="col-sm-10">
+                    <input class="form-control" asp-for="Password" placeholder="Email">
+                    <span asp-validation-for="Password" class="field-validation-error"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" asp-for="ConfirmPassword">Lösenord</label>
+                <div class="col-sm-10">
+                    <input class="form-control" asp-for="ConfirmPassword" placeholder="Email">
+                    <span asp-validation-for="ConfirmPassword" class="field-validation-error"></span>
                 </div>
             </div>
             <div class="form-group row">
@@ -52,7 +66,7 @@
 
                 $('.breadcrumbs').append('<li class="breadcrumbs__item"></li>');
                 $('a.breadcrumbs__link').removeClass('breadcrumbs__link--active');
-                $('li.breadcrumbs__item:last').append('<a href="#" class="breadcrumbs__link breadcrumbs__link--active">Redigera användare</a>');
+                $('li.breadcrumbs__item:last').append('<a href="#" class="breadcrumbs__link breadcrumbs__link--active">Ny användare användare</a>');
             });
         });
 

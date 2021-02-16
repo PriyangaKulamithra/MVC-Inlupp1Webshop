@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using System.Threading.Tasks;
 using Inlupp1ProduktPresentation.Data;
 using Inlupp1ProduktPresentation.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.DataProtection.XmlEncryption;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.UI.V3.Pages.Account.Manage.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -22,11 +24,13 @@ namespace Inlupp1ProduktPresentation.Controllers
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public AdminController(ApplicationDbContext dbContext, UserManager<IdentityUser> userManager)
+        public AdminController(ApplicationDbContext dbContext, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             _dbContext = dbContext;
             _userManager = userManager;
+            _roleManager = roleManager;
         }
         public IActionResult Index()
         {
@@ -149,8 +153,11 @@ namespace Inlupp1ProduktPresentation.Controllers
         [HttpPost]
         public IActionResult EditCategory(int id, AdminEditCategoryViewModel viewModel)
         {
-            var isAlreadyRegisteredName = RegisteredCategoryNames().FirstOrDefault(n => n.ToLower() == viewModel.Name.ToLower());
-            if (isAlreadyRegisteredName != null) ModelState.AddModelError("Name", "Detta kategorinamn är redan registrerat.");
+            if (viewModel.Name != null)
+            {
+                var isAlreadyRegisteredName = RegisteredCategoryNames().FirstOrDefault(n => n.ToLower() == viewModel.Name.ToLower());
+                if (isAlreadyRegisteredName != null) ModelState.AddModelError("Name", "Detta kategorinamn är redan registrerat.");
+            }
 
             if (ModelState.IsValid)
             {
@@ -219,12 +226,6 @@ namespace Inlupp1ProduktPresentation.Controllers
         public IActionResult AllUsers()
         {
             var viewModel = new AdminAllUsersViewModel();
-            //viewModel.AllUsers = _dbContext.Users.Select(u => new AdminAllUsersViewModel.RegisteredUser
-            //{
-            //    Id = u.Id,
-            //    UserName = u.UserName,
-            //    Email = u.Email
-            //}).ToList();
 
             viewModel.AllUsers = _userManager.Users.Select(u => new AdminAllUsersViewModel.RegisteredUser
             {
@@ -237,125 +238,117 @@ namespace Inlupp1ProduktPresentation.Controllers
             return View(viewModel);
         }
 
-        //[Authorize(Roles = "Admin")]
-        //public IActionResult _EditUser(string selectedID)
-        //{
-        //    var user = _dbContext.Users.First(dbUser => dbUser.Id == selectedID);
-        //    var viewModel = new _EditUserViewModel
-        //    {
-        //        Id = user.Id,
-        //        UserName = user.UserName,
-        //        Email = user.Email,
-        //        Role = GetRoleName(user.Id),
-        //        Roles = GetRolesListItems()
-        //    };
-        //    viewModel.SelectedRoleId = viewModel.Role == null ? "0" : GetRoleId(user.Id);
-        //    return View(viewModel);
-        //}
-
-   
-        public async Task<IActionResult> _EditUser(string id)
+        [Authorize(Roles = "Admin")]
+        public IActionResult NewUser()
         {
-            var user = await _userManager.FindByIdAsync(id);
-            if (user != null)
-            {
-                var viewModel = new _EditUserViewModel
-                {
-                    Id = user.Id,
-                    UserName = user.UserName,
-                    Email = user.Email
-                };
-                viewModel.Roles = GetRolesListItems();
-                var roles =_userManager.GetRolesAsync(user).ToString();
-                if (roles != null)
-                {
-                    viewModel.Role = GetRoleName(user.Id);
-                    viewModel.SelectedRoleId = GetRoleId(user.Id);
-                }
-                else
-                {
-                    return View(viewModel);
-                }
-            }
-            return RedirectToAction("AllUsers");
+            var viewModel = new AdminNewUserViewModel();
+            viewModel.Roles = GetRolesListItems();
+            return View(viewModel);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task<IActionResult> _EditUser(_EditUserViewModel model)
+        public IActionResult NewUser(AdminNewUserViewModel model)
         {
-            var user = await _userManager.FindByIdAsync(model.Id);
-
-            if (user != null)
+            if (_dbContext.Users.Any(u=>u.Email == model.Email))
             {
-                user.UserName = model.UserName;
-                user.Email = model.Email;
-                var roles = await _userManager.AddToRoleAsync(user, model.Role);
-                var r = await _userManager.RemoveFromRoleAsync(user, model.PreviousSelectedRoleId);
+                ModelState.AddModelError("Email", "Denna mailadress är redan registrerad.");
             }
-
-            
-
-            //var isAllowedToChangeRoleFromAdmin = IsOnlyAdmin(user);
-
-            //if(!isAllowedToChangeRoleFromAdmin)
-            //{
-            //    ModelState.AddModelError("SelectedRoleId", "Det går ej att ändra från Admin för tillfället. Först måste en annan användare tilldelas denna roll.");
-            //}
-
-            //if (model.Password != null)
-            //{
-            //    var validator = new PasswordValidator<IdentityUser>();
-            //    var result = validator.ValidateAsync(_userManager, user, model.Password).Result;
-            //    if (!result.Succeeded)
-            //    {
-            //        ModelState.AddModelError("Password", "Lösenordet måste bestå av minst 6 tecken.");
-            //    }
-
-            //}
-
-            //if (ModelState.IsValid)
-            //{
-            //    user.UserName = model.UserName;
-            //    user.Email = model.Email;
-            //    var selectedRole = _dbContext.Roles.FirstOrDefault(r => r.Id == model.SelectedRoleId);
-            //    if (selectedRole != null) { var r = _userManager.AddToRolesAsync(user, new[] { selectedRole.Name }).Result; }
-
-            //    //if (model.PreviousSelectedRoleId != "0")
-            //    //{
-            //    //    var previousRole = _dbContext.Roles.First(role => role.Id == model.PreviousSelectedRoleId);
-            //    //    var r = _userManager.RemoveFromRoleAsync(user, previousRole.Name).Result;
-            //    //}
-            //    _dbContext.SaveChanges();
-            //    return RedirectToAction("AllUsers");
-            //}
-
+            if (ModelState.IsValid)
+            {
+                var user = new IdentityUser
+                {
+                    UserName = model.UserName,
+                    Email = model.Email,
+                    EmailConfirmed = true,
+                };
+                _dbContext.AddAsync(user);
+                //var result = _userManager.CreateAsync(user, model.Password).Result;
+                var roles = GetRoleName(model.SelectedRoleId);
+                if (roles != null)
+                {
+                    var r = _userManager.AddToRolesAsync(user, new[] { roles }).Result;
+                }
+                
+                _dbContext.SaveChanges();
+                return RedirectToAction("AllUsers");
+            }
             model.Roles = GetRolesListItems();
             return View(model);
         }
+  
 
-        private bool IsOnlyAdmin(IdentityUser user)
+        [Authorize(Roles = "Admin")]
+        public IActionResult _EditUser(string id)
         {
-            var adminId = _dbContext.Roles.First(r => r.Name == "Admin").Id;
-            var adminCount = _dbContext.UserRoles.Count(ur => ur.RoleId == adminId);
-            if (adminCount == 1)
+            var user = _userManager.FindByIdAsync(id).Result;
+            var viewModel = new _EditUserViewModel
             {
-                foreach (var u in _dbContext.UserRoles)
-                {
-                    if (u.UserId == user.Id) return true;
-                }
-            }
-            return false;
+                Id = user.Id,
+                Email = user.Email,
+                UserName = user.UserName
+            };
+            viewModel.SelectedRoleId = GetRoleId(user.Id);
+            //viewModel.Role = GetRoleName(user.Id);
+            viewModel.Roles = GetRolesListItems();
+            return View(viewModel);
         }
+
+        [Authorize(Roles ="Admin")]
+        [HttpPost]
+        public IActionResult _EditUser(string id, _EditUserViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = _dbContext.Users.First(u => u.Id == id);
+                user.Email = model.Email;
+                user.UserName = model.UserName;
+
+                if (model.SelectedRoleId != null && model.SelectedRoleId != "0")
+                {
+                    var selectedRole = _dbContext.Roles.First(r => r.Id == model.SelectedRoleId);
+                    var isInRole = _userManager.IsInRoleAsync(user, selectedRole.Name).Result;
+                    if (!isInRole)
+                    {
+                        var userRole = _dbContext.UserRoles.FirstOrDefault(ur => ur.UserId == id);
+                        if (userRole != null)
+                        {
+                            var currentRoleName = GetRoleName(user.Id);
+                            var r = _userManager.RemoveFromRoleAsync(user, currentRoleName).Result;
+                            var res = _userManager.AddToRoleAsync(user, selectedRole.Name).Result;
+                        }
+                        else
+                        {
+                            var r = _userManager.AddToRoleAsync(user, selectedRole.Name).Result;
+                        }
+                    }
+                }
+                else
+                {
+                    var userRole = _dbContext.UserRoles.FirstOrDefault(ur => ur.UserId == model.Id);
+                    if (userRole != null)
+                    {
+                        var role = _dbContext.Roles.First(r => r.Id == userRole.RoleId);
+                        var r =_userManager.RemoveFromRoleAsync(user, role.Name).Result;
+                    }
+                }
+                _dbContext.SaveChanges();
+            }
+            return RedirectToAction("AllUsers");
+        }
+        
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> DeleteUser(string id)
         {
-            var user =  await _userManager.FindByIdAsync(id);
+            var user = await _userManager.FindByIdAsync(id);
+            var admins = _userManager.GetUsersInRoleAsync("Admin").Result;
             if (user != null)
             {
                 var result = await _userManager.DeleteAsync(user);
                 if (result.Succeeded) return RedirectToAction("AllUsers");
             }
-            
+
             return RedirectToAction("AllUsers");
         }
         private string GetRoleId(string userId)
