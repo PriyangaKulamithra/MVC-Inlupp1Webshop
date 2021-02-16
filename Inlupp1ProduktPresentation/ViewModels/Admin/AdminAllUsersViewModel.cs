@@ -6,7 +6,7 @@ namespace Inlupp1ProduktPresentation.Models.ViewModels
     public class AdminAllUsersViewModel
     {
         public List<RegisteredUser> AllUsers { get; set; }
-
+        
         public class RegisteredUser
         {
             public string Id { get; set; }

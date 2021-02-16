@@ -54,16 +54,6 @@ namespace Inlupp1ProduktPresentation.Controllers
             return View(viewModel);
         }
 
-        private static string ConvertToImageName(string name)
-        {
-            var imgName = name.ToLower();
-            imgName = imgName.Replace(' ', '_');
-            imgName = imgName.Replace('å', 'a');
-            imgName = imgName.Replace('ä', 'a');
-            imgName = imgName.Replace('ö', 'o');
-            return imgName;
-        }
-
         public IActionResult Details(int id)
         {
             var product = _dbContext.Products.First(prod => prod.Id == id);
@@ -76,6 +66,16 @@ namespace Inlupp1ProduktPresentation.Controllers
                 ImageName = ConvertToImageName(product.Name)
             };
             return View(viewModel);
+        }
+
+        private static string ConvertToImageName(string name)
+        {
+            var imgName = name.ToLower();
+            imgName = imgName.Replace(' ', '_');
+            imgName = imgName.Replace('å', 'a');
+            imgName = imgName.Replace('ä', 'a');
+            imgName = imgName.Replace('ö', 'o');
+            return imgName;
         }
     }
 }

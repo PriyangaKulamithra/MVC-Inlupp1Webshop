@@ -1,21 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net.Sockets;
 using System.Threading.Tasks;
 using Inlupp1ProduktPresentation.Data;
 using Inlupp1ProduktPresentation.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.DataProtection.XmlEncryption;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity.UI.V3.Pages.Account.Manage.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.Extensions.Localization;
+
 
 namespace Inlupp1ProduktPresentation.Controllers
 {
@@ -24,13 +17,11 @@ namespace Inlupp1ProduktPresentation.Controllers
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public AdminController(ApplicationDbContext dbContext, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+        public AdminController(ApplicationDbContext dbContext, UserManager<IdentityUser> userManager)
         {
             _dbContext = dbContext;
             _userManager = userManager;
-            _roleManager = roleManager;
         }
         public IActionResult Index()
         {
@@ -120,7 +111,6 @@ namespace Inlupp1ProduktPresentation.Controllers
                 _dbContext.SaveChanges();
                 return RedirectToAction("AllProducts");
             }
-
             model.Categories = GetCategoryListItems();
             return View(model);
         }
@@ -263,7 +253,6 @@ namespace Inlupp1ProduktPresentation.Controllers
                     EmailConfirmed = true,
                 };
                 _dbContext.AddAsync(user);
-                //var result = _userManager.CreateAsync(user, model.Password).Result;
                 var roles = GetRoleName(model.SelectedRoleId);
                 if (roles != null)
                 {
@@ -289,7 +278,6 @@ namespace Inlupp1ProduktPresentation.Controllers
                 UserName = user.UserName
             };
             viewModel.SelectedRoleId = GetRoleId(user.Id);
-            //viewModel.Role = GetRoleName(user.Id);
             viewModel.Roles = GetRolesListItems();
             return View(viewModel);
         }
@@ -303,7 +291,6 @@ namespace Inlupp1ProduktPresentation.Controllers
                 var user = _dbContext.Users.First(u => u.Id == id);
                 user.Email = model.Email;
                 user.UserName = model.UserName;
-
                 if (model.SelectedRoleId != null && model.SelectedRoleId != "0")
                 {
                     var selectedRole = _dbContext.Roles.First(r => r.Id == model.SelectedRoleId);
@@ -342,9 +329,16 @@ namespace Inlupp1ProduktPresentation.Controllers
         public async Task<IActionResult> DeleteUser(string id)
         {
             var user = await _userManager.FindByIdAsync(id);
-            var admins = _userManager.GetUsersInRoleAsync("Admin").Result;
+            
             if (user != null)
             {
+                var admins = _userManager.GetUsersInRoleAsync("Admin").Result;
+                var isAdmin = _userManager.IsInRoleAsync(user, "Admin").Result;
+                if (isAdmin && admins.Count == 1)
+                {
+                    return RedirectToAction("AllUsers");
+                }
+
                 var result = await _userManager.DeleteAsync(user);
                 if (result.Succeeded) return RedirectToAction("AllUsers");
             }

@@ -11,7 +11,7 @@ namespace Inlupp1ProduktPresentation.Controllers
     public class CategoryController : Controller
     {
         private readonly ApplicationDbContext _dbContext;
-        
+
         public CategoryController(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
@@ -30,8 +30,8 @@ namespace Inlupp1ProduktPresentation.Controllers
         }
         public IActionResult GetProducts(int id)
         {
-            var model = _dbContext.Categories.First(cat => cat.Id == id);
-            var viewModel = new CategoryGetProductsViewModel{ CategoryName = model.Name, CategoryDescription = model.CategoryDescription};
+            var inThisCategory = _dbContext.Categories.First(cat => cat.Id == id);
+            var viewModel = new CategoryGetProductsViewModel{ CategoryName = inThisCategory.Name, CategoryDescription = inThisCategory.CategoryDescription};
             
             var products = _dbContext.Products.Where(prod => prod.Category.Id == id && prod.PublishedOnWebsite).ToList();
             viewModel.Products = products.Select(prod => new CategoryGetProductsViewModel.ProductViewModel()
@@ -45,6 +45,7 @@ namespace Inlupp1ProduktPresentation.Controllers
 
             return View(viewModel);
         }
+
         private static string ConvertToImageName(string name)
         {
             var imgName = name.ToLower();
@@ -53,11 +54,6 @@ namespace Inlupp1ProduktPresentation.Controllers
             imgName = imgName.Replace('ä', 'a');
             imgName = imgName.Replace('ö', 'o');
             return imgName;
-        }
-
-        public IActionResult _RenderBreadcrumb(string activeController, string product)
-        {
-            return View();
         }
     }
 }

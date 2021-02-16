@@ -34,17 +34,7 @@ namespace Inlupp1ProduktPresentation.Controllers
             }).ToList();
             return View(viewModel);
         }
-
-        private static string ConvertToImageName(string name)
-        {
-            var imgName = name.ToLower();
-            imgName = imgName.Replace(' ', '_');
-            imgName = imgName.Replace('å', 'a');
-            imgName = imgName.Replace('ä', 'a');
-            imgName = imgName.Replace('ö', 'o');
-            return imgName;
-        }
-
+        
         public IActionResult Privacy()
         {
             return View();
@@ -54,6 +44,16 @@ namespace Inlupp1ProduktPresentation.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        private static string ConvertToImageName(string name)
+        {
+            var imgName = name.ToLower();
+            imgName = imgName.Replace(' ', '_');
+            imgName = imgName.Replace('å', 'a');
+            imgName = imgName.Replace('ä', 'a');
+            imgName = imgName.Replace('ö', 'o');
+            return imgName;
         }
     }
 }
